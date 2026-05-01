@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Agents & RAG"
+  short_description: "Local LLM, agent, and RAG guidance"
+  default_prompt: "Use $ai-agents-and-rag to design or review an agentic or retrieval-augmented AI workflow."

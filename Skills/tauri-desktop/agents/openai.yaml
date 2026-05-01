@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tauri Desktop"
+  short_description: "Tauri desktop app guidance"
+  default_prompt: "Use $tauri-desktop to build or review a Tauri web-to-desktop application change."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python uv"
+  short_description: "Python and uv workflow guidance"
+  default_prompt: "Use $python-uv to build or review a Python project that uses uv for environments and tasks."

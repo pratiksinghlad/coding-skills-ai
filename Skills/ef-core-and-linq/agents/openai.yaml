@@ -1,0 +1,4 @@
+interface:
+  display_name: "EF Core & LINQ"
+  short_description: "EF Core and LINQ guidance"
+  default_prompt: "Use $ef-core-and-linq to review or implement EF Core and LINQ data-access changes."

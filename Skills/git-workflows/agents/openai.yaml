@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Workflows"
+  short_description: "Git review and branch hygiene guidance"
+  default_prompt: "Use $git-workflows to review a repo state, shape commits, or clean up a branch safely."

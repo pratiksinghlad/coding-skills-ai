@@ -1,0 +1,4 @@
+interface:
+  display_name: "React TS Web"
+  short_description: "React, TypeScript, and responsive web guidance"
+  default_prompt: "Use $react-typescript-web to build or review a responsive React and TypeScript web feature."

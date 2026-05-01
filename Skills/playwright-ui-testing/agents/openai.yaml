@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playwright UI Testing"
+  short_description: "Playwright browser testing guidance"
+  default_prompt: "Use $playwright-ui-testing to add or review end-to-end UI tests with Playwright."

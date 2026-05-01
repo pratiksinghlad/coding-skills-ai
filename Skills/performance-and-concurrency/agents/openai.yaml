@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performance & Concurrency"
+  short_description: "Performance, memory, and concurrency guidance"
+  default_prompt: "Use $performance-and-concurrency to investigate performance issues, leaks, races, or deadlocks."

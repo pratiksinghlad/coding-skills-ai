@@ -1,0 +1,4 @@
+interface:
+  display_name: "Automation Workflows"
+  short_description: "Automation and scripting guidance"
+  default_prompt: "Use $automation-workflows to design or review developer automation, task runners, or repo scripts."

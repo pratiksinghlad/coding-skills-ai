@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Actions CI/CD"
+  short_description: "GitHub Actions and CI/CD guidance"
+  default_prompt: "Use $github-actions-cicd to design or review a GitHub Actions CI/CD workflow."

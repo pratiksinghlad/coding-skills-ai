@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docker DevOps"
+  short_description: "Docker and environment delivery guidance"
+  default_prompt: "Use $docker-devops to improve a Dockerfile, container workflow, or deployment setup."

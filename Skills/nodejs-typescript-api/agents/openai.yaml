@@ -1,0 +1,4 @@
+interface:
+  display_name: "Node TS API"
+  short_description: "Node.js and TypeScript API guidance"
+  default_prompt: "Use $nodejs-typescript-api to build or review a Node.js and TypeScript backend change."

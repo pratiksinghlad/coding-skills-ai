@@ -1,0 +1,4 @@
+interface:
+  display_name: "C# Async"
+  short_description: "Async, cancellation, and deadlock guidance"
+  default_prompt: "Use $csharp-async to review or debug an async .NET code path."
