@@ -1,0 +1,14 @@
+# Root .npmignore — applies to the repo root (which is private and never published)
+# Each package has its own `files` whitelist in its package.json, which takes
+# precedence over .npmignore for that package.
+
+# Development files
+node_modules/
+.git/
+.github/
+*.log
+*.lock
+
+# Test artifacts
+coverage/
+.nyc_output/

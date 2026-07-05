@@ -1,0 +1,19 @@
+{
+  "name": "agent-skills-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/cli",
+    "packages/skills-dotnet"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0"
+  }
+}

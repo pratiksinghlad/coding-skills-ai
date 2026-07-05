@@ -1,0 +1,86 @@
+{
+  "name": "@pratik/agent-skills-dotnet",
+  "version": "0.1.0",
+  "description": "AI agent skill definitions for .NET/C# projects (CQRS, MediatR, EF Core, xUnit, ASP.NET Core).",
+  "skills": [
+    {
+      "name": "OPERATING",
+      "description": "Shared operating contract: bootstrap sequence, working rules, completion gate for all agents.",
+      "path": "AgentSkills/OPERATING.md"
+    },
+    {
+      "name": "core",
+      "description": "Load on every task. Core principles: think before coding, surgical changes, goal-driven testing.",
+      "path": "AgentSkills/skills/core"
+    },
+    {
+      "name": "code-standards",
+      "description": "C# coding standards: naming, no magic values, DRY, readability rules.",
+      "path": "AgentSkills/skills/code-standards"
+    },
+    {
+      "name": "design",
+      "description": "SOLID, KISS, YAGNI, and design pattern rules for .NET architecture.",
+      "path": "AgentSkills/skills/design"
+    },
+    {
+      "name": "dotnet-best-practices",
+      "description": "General .NET and EF Core best practices: async, cancellation, no N+1, projection.",
+      "path": "AgentSkills/skills/dotnet-best-practices"
+    },
+    {
+      "name": "csharp-xunit",
+      "description": "xUnit unit testing guidelines including data-driven tests and mocking patterns.",
+      "path": "AgentSkills/skills/csharp-xunit"
+    },
+    {
+      "name": "mcp_dotnet",
+      "description": "Model Context Protocol tool rules for building and reviewing .NET MCP server tools.",
+      "path": "AgentSkills/skills/mcp_dotnet"
+    },
+    {
+      "name": "dotnet-api",
+      "description": "RESTful API structure, pipeline, OpenAPI, CORS, auth, versioning for .NET 10 Web API.",
+      "path": "AgentSkills/skills/dotnet-api"
+    },
+    {
+      "name": "harness",
+      "description": "Guide and sensor setup for agent operations, CI hooks, and validation scripts.",
+      "path": "AgentSkills/skills/harness"
+    },
+    {
+      "name": "agents",
+      "description": "Agent persona definitions: architect (design/CQRS) and developer (.NET C# implementation).",
+      "path": "AgentSkills/agents"
+    },
+    {
+      "name": "memory",
+      "description": "Persistent agent memory: domain lesson files and memory schema for learning loops.",
+      "path": "AgentSkills/memory"
+    },
+    {
+      "name": "entry-point:claude",
+      "description": "Lightweight Claude entry point — routes the agent to AgentSkills/OPERATING.md.",
+      "path": "AgentSkills/entry-points/CLAUDE.md",
+      "dest": "CLAUDE.md"
+    },
+    {
+      "name": "entry-point:codex",
+      "description": "Lightweight Codex/OpenAI entry point — routes the agent to AgentSkills/OPERATING.md.",
+      "path": "AgentSkills/entry-points/AGENTS.md",
+      "dest": "AGENTS.md"
+    },
+    {
+      "name": "entry-point:copilot",
+      "description": "Lightweight GitHub Copilot entry point — routes the agent to AgentSkills/OPERATING.md.",
+      "path": "AgentSkills/entry-points/copilot-instructions.md",
+      "dest": ".github/copilot-instructions.md"
+    },
+    {
+      "name": "entry-point:cursor",
+      "description": "Lightweight Cursor/Antigravity entry point — routes the agent to AgentSkills/OPERATING.md.",
+      "path": "AgentSkills/entry-points/cursor-instructions.md",
+      "dest": ".cursor/rules/instructions.md"
+    }
+  ]
+}

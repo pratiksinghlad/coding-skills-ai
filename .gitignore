@@ -1,0 +1,20 @@
+# Dependencies — never commit, always reproducible via npm install
+node_modules/
+
+# Build output (if a build step is added later)
+dist/
+build/
+
+# Test coverage reports
+coverage/
+.nyc_output/
+
+# npm pack output (local testing artefact)
+*.tgz
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local

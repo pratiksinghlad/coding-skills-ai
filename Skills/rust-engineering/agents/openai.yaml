@@ -1,4 +1,0 @@
-interface:
-  display_name: "Rust Engineering"
-  short_description: "Rust reliability and performance guidance"
-  default_prompt: "Use $rust-engineering to implement or review a Rust system or service change."
