@@ -4,7 +4,7 @@ name: Publish to npm
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   publish:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write   # Required for provenance publishing
+      id-token: write # Required for provenance publishing
 
     steps:
       - name: Checkout
@@ -21,11 +21,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-          # This injects NODE_AUTH_TOKEN from the secret into the npm config
-          # automatically. Store your npm token as NPM_TOKEN in GitHub secrets.
-          scope: '@pratikpsl'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          scope: "@pratikpsl"
 
       - name: Install dependencies
         run: npm ci
@@ -33,11 +31,9 @@ jobs:
       - name: Run tests
         run: npm test
 
-      # Publish the single unified package containing the CLI and all templates
+      # Publish the single unified package containing the CLI and all templates using Trusted Publisher OIDC
       - name: Publish @pratikpsl/agent-skills
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance
 
       # Tag published versions in git for traceability.
       - name: Log published version

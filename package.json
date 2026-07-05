@@ -1,7 +1,7 @@
 {
   "name": "@pratikpsl/agent-skills",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "CLI to scaffold and manage AI agent skills across projects",
   "bin": {
     "agent-skills": "bin/agent-skills.js"
@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pratik/agent-skills.git"
+    "url": "git+https://github.com/pratiksinghlad/coding-skills-ai.git"
   },
   "scripts": {
     "test": "vitest run",
