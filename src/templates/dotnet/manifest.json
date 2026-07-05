@@ -1,5 +1,5 @@
-{
-  "name": "@pratik/agent-skills-dotnet",
+﻿{
+  "name": "@pratikpsl/agent-skills-dotnet",
   "version": "0.1.0",
   "description": "AI agent skill definitions for .NET/C# projects (CQRS, MediatR, EF Core, xUnit, ASP.NET Core).",
   "skills": [

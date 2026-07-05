@@ -1,4 +1,4 @@
-// src/__tests__/list.test.js
+﻿// src/__tests__/list.test.js
 // Integration-style test: verifies that list output matches manifest contents.
 // We don't spawn the CLI process — instead we call the underlying lib functions
 // that the list command uses, which is the behaviour that matters.
@@ -28,7 +28,7 @@ describe('list — manifest content matches output data', () => {
 
   it('returns all skills declared in manifest', () => {
     const manifest = {
-      name: '@pratik/agent-skills-dotnet',
+      name: '@pratikpsl/agent-skills-dotnet',
       version: '0.1.0',
       skills: [
         { name: 'core', description: 'Core principles', path: 'AgentSkills/skills/core' },

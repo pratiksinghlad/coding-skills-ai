@@ -1,8 +1,8 @@
-// src/commands/dotnet-setup.js
+﻿// src/commands/dotnet-setup.js
 // `agent-skills dotnet-setup`
 //
 // Convenience command equivalent to:
-//   agent-skills add @pratik/agent-skills-dotnet --all
+//   agent-skills add @pratikpsl/agent-skills-dotnet --all
 //
 // Rationale: gives first-time users a single, memorable command for the .NET
 // stack without requiring them to know the full pack name.
@@ -12,7 +12,7 @@ import { resolvePack } from '../lib/resolvePack.js';
 import { readManifest } from '../lib/manifest.js';
 import { copySkills, ensureAgentSkillsDir } from '../lib/copySkills.js';
 
-const DOTNET_PACK = '@pratik/agent-skills-dotnet';
+const DOTNET_PACK = '@pratikpsl/agent-skills-dotnet';
 
 /** @param {import('commander').Command} program */
 export function dotnetSetupCommand(program) {

@@ -7,7 +7,7 @@
 //
 // Expected shape:
 //   {
-//     "name": "@pratik/agent-skills-dotnet",
+//     "name": "@pratikpsl/agent-skills-dotnet",
 //     "version": "0.1.0",
 //     "skills": [
 //       {
@@ -59,6 +59,9 @@ export function readManifest(packDir) {
   let raw;
   try {
     raw = readFileSync(manifestPath, 'utf8');
+    if (raw.charCodeAt(0) === 0xFEFF) {
+      raw = raw.slice(1);
+    }
   } catch (err) {
     throw new Error(`Could not read manifest.json: ${err.message}`);
   }
@@ -66,8 +69,8 @@ export function readManifest(packDir) {
   let manifest;
   try {
     manifest = JSON.parse(raw);
-  } catch {
-    throw new Error(`manifest.json at "${manifestPath}" is not valid JSON.`);
+  } catch (err) {
+    throw new Error(`manifest.json at "${manifestPath}" is not valid JSON: ${err.message}`);
   }
 
   validateManifest(manifest, manifestPath);

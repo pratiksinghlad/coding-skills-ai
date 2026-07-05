@@ -1,4 +1,4 @@
-// src/__tests__/manifest.test.js
+﻿// src/__tests__/manifest.test.js
 // Unit tests for the manifest reader/validator.
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
@@ -26,7 +26,7 @@ describe('readManifest', () => {
 
   it('parses a valid manifest', () => {
     const manifest = {
-      name: '@pratik/agent-skills-dotnet',
+      name: '@pratikpsl/agent-skills-dotnet',
       version: '0.1.0',
       skills: [
         { name: 'core', description: 'Core principles', path: 'AgentSkills/skills/core' },
@@ -34,7 +34,7 @@ describe('readManifest', () => {
     };
     writeFileSync(path.join(tmpDir, 'manifest.json'), JSON.stringify(manifest));
     const result = readManifest(tmpDir);
-    expect(result.name).toBe('@pratik/agent-skills-dotnet');
+    expect(result.name).toBe('@pratikpsl/agent-skills-dotnet');
     expect(result.skills).toHaveLength(1);
     expect(result.skills[0].name).toBe('core');
   });

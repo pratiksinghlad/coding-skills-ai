@@ -25,33 +25,22 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           # This injects NODE_AUTH_TOKEN from the secret into the npm config
           # automatically. Store your npm token as NPM_TOKEN in GitHub secrets.
-          scope: '@pratik'
+          scope: '@pratikpsl'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run tests
-        run: npm test --workspaces --if-present
+        run: npm test
 
-      # Publish CLI package first (it depends on the skills pack at runtime,
-      # but the pack doesn't depend on the CLI, so order doesn't matter strictly).
-      - name: Publish @pratik/agent-skills (CLI)
-        run: npm publish --access restricted
-        working-directory: packages/cli
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @pratik/agent-skills-dotnet (skills pack)
-        run: npm publish --access restricted
-        working-directory: packages/skills-dotnet
+      # Publish the single unified package containing the CLI and all templates
+      - name: Publish @pratikpsl/agent-skills
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # Tag published versions in git for traceability.
-      # The pushed tag (e.g. v0.1.0) already serves as the release marker —
-      # this step is a no-op placeholder if you want per-package tags instead.
       - name: Log published version
         run: |
           echo "Published tag: ${{ github.ref_name }}"
-          echo "CLI version:   $(node -p "require('./packages/cli/package.json').version")"
-          echo "Pack version:  $(node -p "require('./packages/skills-dotnet/package.json').version")"
+          echo "Package version: $(node -p "require('./package.json').version")"
