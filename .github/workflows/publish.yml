@@ -33,7 +33,7 @@ jobs:
 
       # Publish the single unified package containing the CLI and all templates using Trusted Publisher OIDC
       - name: Publish @pratikpsl/agent-skills
-        run: npm publish --provenance
+        run: npm publish --provenance --access public
 
       # Tag published versions in git for traceability.
       - name: Log published version
