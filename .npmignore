@@ -1,6 +1,12 @@
-# Root .npmignore — applies to the repo root (which is private and never published)
-# Each package has its own `files` whitelist in its package.json, which takes
-# precedence over .npmignore for that package.
+# .npmignore — controls what is excluded from the npm tarball.
+# The `files` whitelist in package.json takes precedence, but this
+# provides an additional safety net against accidental inclusion.
+
+# Source code (only compiled dist/ is shipped)
+src/
+tests/
+tsconfig.json
+vitest.config.ts
 
 # Development files
 node_modules/
@@ -12,3 +18,7 @@ node_modules/
 # Test artifacts
 coverage/
 .nyc_output/
+
+# Content directories not part of the npm package
+Skills/
+plugins/
