@@ -1,4 +1,4 @@
-// src/index.js
+// cli/index.js
 // Wires up the root `commander` program and registers all sub-commands.
 // This file is the only place that imports commander; sub-commands receive
 // the program instance so they stay independently testable.

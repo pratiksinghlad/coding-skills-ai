@@ -1,4 +1,4 @@
-// src/__tests__/copySkills.test.js
+// tests/copySkills.test.js
 // Unit tests for the copySkills utility.
 // Key invariants tested:
 //   1. Files are copied when destination does not exist.
@@ -11,7 +11,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from 'fs';
 import path from 'path';
 import os from 'os';
-import { copySkills } from '../lib/copySkills.js';
+import { copySkills } from '../cli/core/copySkills.js';
 
 function makeTempDir() {
   const dir = path.join(os.tmpdir(), `agent-skills-copy-test-${Date.now()}`);

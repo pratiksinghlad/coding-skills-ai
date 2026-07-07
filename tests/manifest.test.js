@@ -1,11 +1,11 @@
-﻿// src/__tests__/manifest.test.js
+// tests/manifest.test.js
 // Unit tests for the manifest reader/validator.
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdirSync, writeFileSync, rmSync } from 'fs';
 import path from 'path';
 import os from 'os';
-import { readManifest } from '../lib/manifest.js';
+import { readManifest } from '../cli/core/manifest.js';
 
 function makeTempDir() {
   const dir = path.join(os.tmpdir(), `agent-skills-test-${Date.now()}`);

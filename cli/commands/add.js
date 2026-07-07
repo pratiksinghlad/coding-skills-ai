@@ -1,4 +1,4 @@
-// src/commands/add.js
+// cli/commands/add.js
 // `agent-skills add <pack> <skillName|--all>`
 //
 // Copies a single named skill (or all skills with --all) from a pack into the
@@ -7,9 +7,8 @@
 // This is the generic command. `dotnet-setup` is a convenience wrapper over this.
 
 import path from 'path';
-import { resolvePack } from '../lib/resolvePack.js';
-import { readManifest } from '../lib/manifest.js';
-import { copySkills, ensureAgentSkillsDir } from '../lib/copySkills.js';
+import { loadPack } from '../core/loadPack.js';
+import { copySkills, ensureAgentSkillsDir } from '../core/copySkills.js';
 
 /** @param {import('commander').Command} program */
 export function addCommand(program) {
@@ -27,17 +26,9 @@ export function addCommand(program) {
 
       const targetDir = path.resolve(options.path);
 
-      let packDir;
+      let packDir, manifest;
       try {
-        packDir = await resolvePack(pack);
-      } catch (err) {
-        console.error(`✗ ${err.message}`);
-        process.exit(1);
-      }
-
-      let manifest;
-      try {
-        manifest = readManifest(packDir);
+        ({ packDir, manifest } = await loadPack(pack));
       } catch (err) {
         console.error(`✗ ${err.message}`);
         process.exit(1);

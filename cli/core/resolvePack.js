@@ -1,7 +1,8 @@
-// src/lib/resolvePack.js
+// cli/core/resolvePack.js
 // Locates a templates folder bundled inside the package itself.
-// Since everything is now in one package, we don't need to fetch
-// anything from npm registry at runtime.
+// Since everything is in one package, no runtime npm fetching is needed.
+//
+// Templates live at the repo/package root under `templates/<packName>/`.
 
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
@@ -28,10 +29,14 @@ const PACK_ALIASES = {
  * @throws {Error}           When the pack cannot be located.
  */
 export async function resolvePack(packName) {
-  const normalized = PACK_ALIASES[packName] ?? packName.replace(/^@pratikpsl\/agent-skills-/, '').replace(/^skills-/, '');
+  const normalized =
+    PACK_ALIASES[packName] ??
+    packName
+      .replace(/^@pratikpsl\/agent-skills-/, '')
+      .replace(/^skills-/, '');
 
-  // Locate the templates folder inside the package src directory
-  const templateDir = path.resolve(__dirname, '..', 'templates', normalized);
+  // templates/ lives two levels up from cli/core/ (at the package root)
+  const templateDir = path.resolve(__dirname, '..', '..', 'templates', normalized);
 
   if (existsSync(templateDir) && existsSync(path.join(templateDir, 'manifest.json'))) {
     return templateDir;

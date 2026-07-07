@@ -1,4 +1,4 @@
-// src/commands/init.js
+// cli/commands/init.js
 // `agent-skills init`
 //
 // Scaffolds an empty AgentSkills/ folder + index.json in the current project

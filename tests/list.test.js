@@ -1,13 +1,13 @@
-﻿// src/__tests__/list.test.js
+// tests/list.test.js
 // Integration-style test: verifies that list output matches manifest contents.
-// We don't spawn the CLI process — instead we call the underlying lib functions
+// We don't spawn the CLI process — instead we call the underlying core functions
 // that the list command uses, which is the behaviour that matters.
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdirSync, writeFileSync, rmSync } from 'fs';
 import path from 'path';
 import os from 'os';
-import { readManifest } from '../lib/manifest.js';
+import { readManifest } from '../cli/core/manifest.js';
 
 function makeTempDir() {
   const dir = path.join(os.tmpdir(), `agent-skills-list-test-${Date.now()}`);

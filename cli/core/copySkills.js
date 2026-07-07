@@ -1,4 +1,4 @@
-// src/lib/copySkills.js
+// cli/core/copySkills.js
 // Copies skill files from a pack into the target project's AgentSkills/ folder.
 //
 // Rules enforced here:

@@ -1,4 +1,4 @@
-// src/lib/manifest.js
+// cli/core/manifest.js
 // Reads and validates a pack's manifest.json.
 //
 // The manifest is the contract between a skills pack and the CLI.

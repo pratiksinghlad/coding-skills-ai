@@ -1,11 +1,11 @@
-// src/commands/list.js
+// cli/commands/list.js
 // `agent-skills list [pack]`
 //
 // Lists available skills in an installed or available pack.
 // When no pack is specified, lists all packs the CLI knows about.
 
-import { resolvePack } from '../lib/resolvePack.js';
-import { readManifest } from '../lib/manifest.js';
+import { resolvePack } from '../core/resolvePack.js';
+import { readManifest } from '../core/manifest.js';
 
 /** @param {import('commander').Command} program */
 export function listCommand(program) {

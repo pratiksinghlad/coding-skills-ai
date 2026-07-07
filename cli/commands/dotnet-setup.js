@@ -1,4 +1,4 @@
-﻿// src/commands/dotnet-setup.js
+// cli/commands/dotnet-setup.js
 // `agent-skills dotnet-setup`
 //
 // Convenience command equivalent to:
@@ -8,9 +8,8 @@
 // stack without requiring them to know the full pack name.
 
 import path from 'path';
-import { resolvePack } from '../lib/resolvePack.js';
-import { readManifest } from '../lib/manifest.js';
-import { copySkills, ensureAgentSkillsDir } from '../lib/copySkills.js';
+import { loadPack } from '../core/loadPack.js';
+import { copySkills, ensureAgentSkillsDir } from '../core/copySkills.js';
 
 const DOTNET_PACK = '@pratikpsl/agent-skills-dotnet';
 
@@ -26,17 +25,9 @@ export function dotnetSetupCommand(program) {
 
       console.log(`\n🔧 Setting up .NET agent skills in: ${targetDir}\n`);
 
-      let packDir;
+      let packDir, manifest;
       try {
-        packDir = await resolvePack(DOTNET_PACK);
-      } catch (err) {
-        console.error(`✗ ${err.message}`);
-        process.exit(1);
-      }
-
-      let manifest;
-      try {
-        manifest = readManifest(packDir);
+        ({ packDir, manifest } = await loadPack(DOTNET_PACK));
       } catch (err) {
         console.error(`✗ ${err.message}`);
         process.exit(1);
