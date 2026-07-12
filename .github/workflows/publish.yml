@@ -10,6 +10,9 @@ jobs:
   publish:
     name: Test & Publish
     runs-on: ubuntu-latest
+    # This forces the job's steps to execute inside this minimal container
+    container:
+      image: ubuntu:24.04-slim
     permissions:
       contents: read
       id-token: write # Required for provenance publishing
