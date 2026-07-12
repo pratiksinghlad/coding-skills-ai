@@ -78,9 +78,15 @@
     },
     {
       "name": "entry-point:cursor",
-      "description": "Lightweight Cursor/Antigravity entry point — routes the agent to AgentSkills/OPERATING.md.",
+      "description": "Lightweight Cursor entry point — routes the agent to AgentSkills/OPERATING.md.",
       "path": "AgentSkills/entry-points/cursor-instructions.md",
       "dest": ".cursor/rules/instructions.md"
+    },
+    {
+      "name": "entry-point:antigravity",
+      "description": "Lightweight Antigravity (Google DeepMind) entry point — routes the agent to AgentSkills/OPERATING.md.",
+      "path": "AgentSkills/entry-points/antigravity-instructions.md",
+      "dest": ".agents/GEMINI.md"
     }
   ]
 }

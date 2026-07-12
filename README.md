@@ -13,20 +13,28 @@ To setup agent skills in any target project, run:
 ```bash
 # In any .NET project root:
 npx @pratikpsl/agent-skills dotnet-setup
+
+# Install shared skills + one IDE entry-point only
+npx @pratikpsl/agent-skills dotnet-setup cursor      # → .cursor/rules/instructions.md
+npx @pratikpsl/agent-skills dotnet-setup claude       # → CLAUDE.md
+npx @pratikpsl/agent-skills dotnet-setup codex        # → AGENTS.md
+npx @pratikpsl/agent-skills dotnet-setup copilot      # → .github/copilot-instructions.md
+npx @pratikpsl/agent-skills dotnet-setup antigravity  # → .agents/GEMINI.md
 ```
 
 ### Other Commands
 
-| Command | Description |
-|---------|-------------|
-| `npx @pratikpsl/agent-skills init` | Scaffold an empty `AgentSkills/` folder and `index.json` |
-| `npx @pratikpsl/agent-skills list dotnet` | List available skills inside the dotnet pack |
-| `npx @pratikpsl/agent-skills add dotnet <skill>` | Copy a single skill into your project |
-| `npx @pratikpsl/agent-skills add dotnet --all` | Copy all skills (alternative to `dotnet-setup`) |
-| `npx @pratikpsl/agent-skills --help` | Show CLI help |
-| `npx @pratikpsl/agent-skills --version` | Show CLI version |
+| Command                                          | Description                                              |
+| ------------------------------------------------ | -------------------------------------------------------- |
+| `npx @pratikpsl/agent-skills init`               | Scaffold an empty `AgentSkills/` folder and `index.json` |
+| `npx @pratikpsl/agent-skills list dotnet`        | List available skills inside the dotnet pack             |
+| `npx @pratikpsl/agent-skills add dotnet <skill>` | Copy a single skill into your project                    |
+| `npx @pratikpsl/agent-skills add dotnet --all`   | Copy all skills (alternative to `dotnet-setup`)          |
+| `npx @pratikpsl/agent-skills --help`             | Show CLI help                                            |
+| `npx @pratikpsl/agent-skills --version`          | Show CLI version                                         |
 
 ### Options
+
 - `--force`: Overwrite existing skill and entry point files.
 - `--path <dir>`: Target project root (defaults to `process.cwd()`).
 
