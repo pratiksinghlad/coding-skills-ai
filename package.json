@@ -1,8 +1,8 @@
 {
   "name": "@pratikpsl/agent-skills",
   "type": "module",
-  "version": "0.5.0",
-  "description": "CLI to scaffold and manage AI agent skills across projects",
+  "version": "0.6.0",
+  "description": "CLI to scaffold and manage AI agent skills across projects — like shadcn/ui, but for Cursor, Claude, Codex, Copilot, and more",
   "bin": {
     "agent-skills": "dist/bin/agent-skills.js"
   },
@@ -15,10 +15,26 @@
   "engines": {
     "node": ">=18"
   },
+  "keywords": [
+    "ai",
+    "agent-skills",
+    "cursor",
+    "claude",
+    "cli",
+    "scaffold",
+    "copilot",
+    "codex",
+    "dotnet",
+    "agents"
+  ],
+  "homepage": "https://github.com/pratiksinghlad/coding-skills-ai#readme",
+  "bugs": {
+    "url": "https://github.com/pratiksinghlad/coding-skills-ai/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pratiksinghlad/coding-skills-ai.git"
