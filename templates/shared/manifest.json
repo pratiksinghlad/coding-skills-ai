@@ -1,7 +1,7 @@
 {
   "name": "@pratikpsl/agent-skills",
-  "version": "0.7.0",
-  "description": "Universal single-file AI agent instructions for all programming languages, OSes, and IDEs (Cursor, Claude, Copilot, Codex, Antigravity, Windsurf, Cline, Aider).",
+  "version": "0.8.0",
+  "description": "Universal single-file AI agent instructions for all programming languages, OSes, and IDEs (Cursor, Claude, Copilot, Codex, Antigravity, Windsurf, Cline).",
   "skills": [
     {
       "name": "instructions",
@@ -50,13 +50,8 @@
       "description": "Cline / Roo Code rules entry point.",
       "path": "instructions.md",
       "dest": ".clinerules"
-    },
-    {
-      "name": "entry-point:aider",
-      "description": "Aider conventions entry point.",
-      "path": "instructions.md",
-      "dest": "CONVENTIONS.md"
     }
   ]
 }
+
 

@@ -41,7 +41,6 @@ const IDE_DESTINATIONS: Record<string, string> = {
   "entry-point:antigravity": ".agents/GEMINI.md",
   "entry-point:windsurf": ".windsurfrules",
   "entry-point:cline": ".clinerules",
-  "entry-point:aider": "CONVENTIONS.md",
 };
 
 function parseSkillDescription(skillDir: string, skillName: string): string {
@@ -151,7 +150,7 @@ export function readManifest(packDir: string): Manifest {
   if (!targetPath) {
     return {
       name: "@pratikpsl/agent-skills",
-      version: "0.7.0",
+      version: "0.8.0",
       skills: discoverSkills(packDir),
     };
   }

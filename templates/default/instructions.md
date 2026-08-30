@@ -32,3 +32,6 @@ told otherwise.
 - Tests pass; add/update tests for the change if the project has a test suite.
 - The change is minimal, focused, and easy to review.
 
+## Agent Memory
+Read `AgentSkills/memory/index.md` at the start of every task; load only the relevant domain file(s).
+After a task, if a mistake was corrected, append one line to the correct `AgentSkills/memory/lessons/<domain>.md` and update the count in `index.md`.

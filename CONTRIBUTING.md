@@ -7,9 +7,9 @@ Thanks for helping improve `@pratikpsl/agent-skills`.
 ```bash
 git clone https://github.com/pratiksinghlad/coding-skills-ai.git
 cd coding-skills-ai
-npm ci
-npm run build
-npm test
+bun install
+bun run build
+bun test
 ```
 
 ## Layout
@@ -26,7 +26,7 @@ npm test
 
 1. Create a branch from `main`.
 2. Make focused changes (docs, CLI, templates, or tests).
-3. Run `npm run build && npm test`.
+3. Run `bun run build && bun test`.
 4. Open a PR against `main` with a short summary and test plan.
 
 ## Packs

@@ -16,7 +16,6 @@ const TEST_SKILLS: SkillEntry[] = [
   { name: "entry-point:antigravity", description: "Antigravity EP", path: "instructions.md", dest: ".agents/GEMINI.md" },
   { name: "entry-point:windsurf", description: "Windsurf EP", path: "instructions.md", dest: ".windsurfrules" },
   { name: "entry-point:cline", description: "Cline EP", path: "instructions.md", dest: ".clinerules" },
-  { name: "entry-point:aider", description: "Aider EP", path: "instructions.md", dest: "CONVENTIONS.md" },
 ];
 
 describe("filterSkillsForIde", () => {
@@ -25,7 +24,7 @@ describe("filterSkillsForIde", () => {
     const dests = result.map((s) => s.dest ?? s.path);
     const uniqueDests = Array.from(new Set(dests));
     expect(dests).toEqual(uniqueDests);
-    expect(result.length).toBe(8); // 8 distinct destination paths
+    expect(result.length).toBe(7); // 7 distinct destination paths
   });
 
   it("filters accurately for each supported IDE", () => {
@@ -37,7 +36,6 @@ describe("filterSkillsForIde", () => {
       ["antigravity", "entry-point:antigravity"],
       ["windsurf", "entry-point:windsurf"],
       ["cline", "entry-point:cline"],
-      ["aider", "entry-point:aider"],
     ];
 
     for (const [ide, expectedSkillName] of testCases) {

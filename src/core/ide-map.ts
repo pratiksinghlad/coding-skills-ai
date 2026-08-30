@@ -11,7 +11,6 @@ export const IDE_ENTRY_POINT_MAP: Record<string, string> = {
   antigravity: "entry-point:antigravity",
   windsurf: "entry-point:windsurf",
   cline: "entry-point:cline",
-  aider: "entry-point:aider",
 };
 
 export const VALID_IDE_NAMES = Object.keys(IDE_ENTRY_POINT_MAP).join(", ");
