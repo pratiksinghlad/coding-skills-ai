@@ -150,7 +150,7 @@ export function readManifest(packDir: string): Manifest {
   if (!targetPath) {
     return {
       name: "@pratikpsl/agent-skills",
-      version: "0.8.0",
+      version: "0.9.0",
       skills: discoverSkills(packDir),
     };
   }
