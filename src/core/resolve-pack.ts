@@ -16,6 +16,25 @@ const PACK_ALIASES: Record<string, string> = {
   dotnet: "dotnet",
   "skills-dotnet": "dotnet",
   "@pratikpsl/agent-skills-dotnet": "dotnet",
+  default: "default",
+  instructions: "default",
+  "skills-instructions": "default",
+  "@pratikpsl/agent-skills": "default",
+  "@pratikpsl/agent-skills-default": "default",
+  "@pratikpsl/agent-skills-instructions": "default",
+  "single-file": "default",
+  universal: "default",
+  "skills-universal": "default",
+  "@pratikpsl/agent-skills-universal": "default",
+  core: "default",
+  "skills-core": "default",
+  "@pratikpsl/agent-skills-core": "default",
+  standard: "default",
+  "skills-standard": "default",
+  "@pratikpsl/agent-skills-standard": "default",
+  base: "default",
+  "skills-base": "default",
+  "@pratikpsl/agent-skills-base": "default",
 };
 
 /**
@@ -43,13 +62,15 @@ export function resolvePack(packName: string): string {
 
   if (
     existsSync(templateDir) &&
-    existsSync(path.join(templateDir, "manifest.json"))
+    (existsSync(path.join(templateDir, "manifest.json")) ||
+      existsSync(path.join(templateDir, "AgentSkills")) ||
+      existsSync(path.join(templateDir, "instructions.md")))
   ) {
     return templateDir;
   }
 
   throw new Error(
     `Pack "${packName}" (mapped to "${normalized}") is not bundled with this version of the CLI. ` +
-      `Currently available packs: dotnet`,
+      `Currently available packs: default, dotnet`,
   );
 }

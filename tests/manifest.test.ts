@@ -26,7 +26,7 @@ describe("readManifest", () => {
 
   it("parses a valid manifest", () => {
     const manifest = {
-      name: "@pratikpsl/agent-skills-dotnet",
+      name: "@pratikpsl/agent-skills",
       version: "0.1.0",
       skills: [
         { name: "core", description: "Core principles", path: "AgentSkills/skills/core" },
@@ -34,13 +34,24 @@ describe("readManifest", () => {
     };
     writeFileSync(path.join(tmpDir, "manifest.json"), JSON.stringify(manifest));
     const result = readManifest(tmpDir);
-    expect(result.name).toBe("@pratikpsl/agent-skills-dotnet");
+    expect(result.name).toBe("@pratikpsl/agent-skills");
     expect(result.skills).toHaveLength(1);
     expect(result.skills[0].name).toBe("core");
   });
 
-  it("throws when manifest.json is missing", () => {
-    expect(() => readManifest(tmpDir)).toThrowError(/manifest.json not found/);
+  it("auto-discovers skills from AgentSkills when manifest.json is missing", () => {
+    mkdirSync(path.join(tmpDir, "AgentSkills", "skills", "core"), { recursive: true });
+    writeFileSync(
+      path.join(tmpDir, "AgentSkills", "skills", "core", "SKILL.md"),
+      "---\nname: core\ndescription: Core rules\n---\n",
+    );
+    const result = readManifest(tmpDir);
+    expect(result.name).toBe("@pratikpsl/agent-skills");
+    expect(result.skills.some((s) => s.name === "core")).toBe(true);
+  });
+
+  it("throws when no recognized skills or instructions exist in directory", () => {
+    expect(() => readManifest(tmpDir)).toThrowError(/No recognized skills or instructions found/);
   });
 
   it("throws when manifest.json is not valid JSON", () => {

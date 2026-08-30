@@ -1,6 +1,4 @@
-# Codex / OpenAI Entry Point
-
-This file is a lightweight entry point for Codex and OpenAI agents.
+# Agent Entry Point
 
 `AgentSkills/` is the single source of truth for skills, agents, memory,
 prerequisites, checklists, and project rules used by all coding agents and
@@ -48,3 +46,4 @@ Before marking any code-changing task complete:
 
 3. Do not claim completion when required checks fail. List failures clearly and
    leave the work in a reviewable state.
+

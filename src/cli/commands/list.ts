@@ -15,7 +15,7 @@ export function listCommand(program: Command): void {
     .action((pack?: string) => {
       const packsToList = pack
         ? [pack]
-        : ["dotnet"]; // Extend this array as new packs are added.
+        : ["default", "dotnet"];
 
       let exitCode = 0;
 

@@ -1,7 +1,7 @@
 {
   "name": "@pratikpsl/agent-skills",
   "type": "module",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "CLI to scaffold and manage AI agent skills across projects — like shadcn/ui, but for Cursor, Claude, Codex, Copilot, and more",
   "bin": {
     "agent-skills": "dist/bin/agent-skills.js"
@@ -25,7 +25,9 @@
     "copilot",
     "codex",
     "dotnet",
-    "agents"
+    "agents",
+    "antigravity",
+    "typescript"
   ],
   "homepage": "https://github.com/pratiksinghlad/coding-skills-ai#readme",
   "bugs": {
@@ -46,11 +48,11 @@
     "dry-run": "npm run build && npm publish --dry-run"
   },
   "dependencies": {
-    "commander": "^12.0.0"
+    "commander": "^15.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.33",
-    "typescript": "^5.8.3",
-    "vitest": "^3.0.0"
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
   }
 }

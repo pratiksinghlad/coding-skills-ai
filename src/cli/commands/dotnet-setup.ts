@@ -16,53 +16,12 @@ import path from "path";
 import type { Command } from "commander";
 import { loadPack } from "../../core/load-pack.js";
 import { copySkills, ensureAgentSkillsDir } from "../../core/copy-skills.js";
+import { filterSkillsForIde, VALID_IDE_NAMES } from "../../core/ide-map.js";
 import type { SkillEntry } from "../../core/manifest.js";
 
-const DOTNET_PACK = "@pratikpsl/agent-skills-dotnet";
+const DOTNET_PACK = "dotnet";
 
-/**
- * Maps the user-facing IDE name to the manifest skill name for that IDE's
- * entry-point. Skills whose name starts with `entry-point:` but are NOT in
- * this map are filtered out when an IDE is specified.
- */
-const IDE_ENTRY_POINT_MAP: Record<string, string> = {
-  cursor: "entry-point:cursor",
-  claude: "entry-point:claude",
-  codex: "entry-point:codex",
-  copilot: "entry-point:copilot",
-  antigravity: "entry-point:antigravity",
-};
-
-const ENTRY_POINT_PREFIX = "entry-point:";
-
-/** Human-readable list of valid IDE names for error messages. */
-const VALID_IDE_NAMES = Object.keys(IDE_ENTRY_POINT_MAP).join(", ");
-
-/**
- * Filters a skill list for a specific IDE:
- *  - Keeps all non-entry-point skills (shared AgentSkills content).
- *  - Keeps only the entry-point skill matching the given IDE.
- *
- * Exported for unit testing; contains no I/O.
- *
- * @throws When `ide` is not a recognised key in IDE_ENTRY_POINT_MAP.
- */
-export function filterSkillsForIde(
-  skills: SkillEntry[],
-  ide: string,
-): SkillEntry[] {
-  const targetSkillName = IDE_ENTRY_POINT_MAP[ide];
-  if (!targetSkillName) {
-    throw new Error(
-      `Unknown IDE "${ide}". Valid options are: ${VALID_IDE_NAMES}`,
-    );
-  }
-
-  return skills.filter(
-    (s) =>
-      !s.name.startsWith(ENTRY_POINT_PREFIX) || s.name === targetSkillName,
-  );
-}
+export { filterSkillsForIde };
 
 export function dotnetSetupCommand(program: Command): void {
   program
@@ -77,8 +36,9 @@ export function dotnetSetupCommand(program: Command): void {
       `IDE entry-point to install (${VALID_IDE_NAMES}). Omit to install all.`,
     )
     .option("--force", "Overwrite existing files", false)
+    .option("--hardlink", "Hardlink shared files where possible", false)
     .option("--path <dir>", "Target project root (default: cwd)", process.cwd())
-    .action((ide: string | undefined, options: { force: boolean; path: string }) => {
+    .action((ide: string | undefined, options: { force: boolean; hardlink: boolean; path: string }) => {
       const targetDir = path.resolve(options.path);
 
       if (ide !== undefined) {
@@ -112,6 +72,7 @@ export function dotnetSetupCommand(program: Command): void {
         packDir,
         targetDir,
         force: options.force,
+        hardlink: options.hardlink,
       });
 
       console.log("\n" + "─".repeat(50));

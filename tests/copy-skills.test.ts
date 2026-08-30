@@ -157,4 +157,98 @@ describe("copySkills", () => {
     // Existing content untouched
     expect(readFileSync(path.join(targetDir, "CLAUDE.md"), "utf8")).toBe("existing content");
   });
+
+  it("creates hardlinks for multiple destinations referencing the same source file when hardlink:true", () => {
+    const multiEntrySkills: SkillEntry[] = [
+      {
+        name: "entry-point:codex",
+        description: "Codex entry point",
+        path: "instructions.md",
+        dest: "AGENTS.md",
+      },
+      {
+        name: "entry-point:claude",
+        description: "Claude entry point",
+        path: "instructions.md",
+        dest: "CLAUDE.md",
+      },
+      {
+        name: "entry-point:copilot",
+        description: "Copilot entry point",
+        path: "instructions.md",
+        dest: ".github/copilot-instructions.md",
+      },
+    ];
+
+    writeFileSync(path.join(packDir, "instructions.md"), "# Universal Instructions\n\nGoal: Build quality.");
+
+    const { written, skipped } = copySkills({
+      skills: multiEntrySkills,
+      packDir,
+      targetDir,
+      force: false,
+      hardlink: true,
+    });
+
+    expect(written).toEqual(["AGENTS.md", "CLAUDE.md", ".github/copilot-instructions.md"]);
+    expect(skipped).toHaveLength(0);
+
+    // Verify all files exist and have initial content
+    const agentsPath = path.join(targetDir, "AGENTS.md");
+    const claudePath = path.join(targetDir, "CLAUDE.md");
+    const copilotPath = path.join(targetDir, ".github/copilot-instructions.md");
+
+    expect(existsSync(agentsPath)).toBe(true);
+    expect(existsSync(claudePath)).toBe(true);
+    expect(existsSync(copilotPath)).toBe(true);
+
+    // Test hardlink synchronization: editing CLAUDE.md should instantly reflect in AGENTS.md and copilot-instructions.md
+    writeFileSync(claudePath, "# Modified via Claude");
+    expect(readFileSync(agentsPath, "utf8")).toBe("# Modified via Claude");
+    expect(readFileSync(copilotPath, "utf8")).toBe("# Modified via Claude");
+  });
+
+  it("overwrites existing files and establishes hardlinks when force:true and hardlink:true", () => {
+    const multiEntrySkills: SkillEntry[] = [
+      {
+        name: "entry-point:codex",
+        description: "Codex entry point",
+        path: "instructions.md",
+        dest: "AGENTS.md",
+      },
+      {
+        name: "entry-point:claude",
+        description: "Claude entry point",
+        path: "instructions.md",
+        dest: "CLAUDE.md",
+      },
+    ];
+
+    writeFileSync(path.join(packDir, "instructions.md"), "New pack content");
+
+    // Pre-create existing files with distinct old content
+    writeFileSync(path.join(targetDir, "AGENTS.md"), "Old AGENTS");
+    writeFileSync(path.join(targetDir, "CLAUDE.md"), "Old CLAUDE");
+
+    const { written, skipped } = copySkills({
+      skills: multiEntrySkills,
+      packDir,
+      targetDir,
+      force: true,
+      hardlink: true,
+    });
+
+    expect(written).toEqual(["AGENTS.md", "CLAUDE.md"]);
+    expect(skipped).toHaveLength(0);
+
+    const agentsPath = path.join(targetDir, "AGENTS.md");
+    const claudePath = path.join(targetDir, "CLAUDE.md");
+
+    expect(readFileSync(agentsPath, "utf8")).toBe("New pack content");
+    expect(readFileSync(claudePath, "utf8")).toBe("New pack content");
+
+    // Verify hardlink synchronization
+    writeFileSync(agentsPath, "Synced via hardlink");
+    expect(readFileSync(claudePath, "utf8")).toBe("Synced via hardlink");
+  });
 });
