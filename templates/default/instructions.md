@@ -33,5 +33,6 @@ told otherwise.
 - The change is minimal, focused, and easy to review.
 
 ## Agent Memory
-Read `AgentSkills/memory/index.md` at the start of every task; load only the relevant domain file(s).
-After a task, if a mistake was corrected, append one line to the correct `AgentSkills/memory/lessons/<domain>.md` and update the count in `index.md`.
+Read `AgentSkills/memory/index.md` at the start of every task (create it if missing); load only the relevant domain file(s) to avoid repeating past mistakes.
+When a mistake is made and corrected, record a clear, actionable lesson in the matching domain file `AgentSkills/memory/lessons/<domain>.md` (create if missing) for future reference.
+Keep lessons clear and understandable for both humans and agents, and maintain `index.md` by registering new domains and keeping lesson counts accurate.

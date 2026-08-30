@@ -151,7 +151,7 @@ Useful scripts:
    # Expect: dist/** and templates/** (not Skills/ or src/)
    ```
 4. Publish:
-   - **Trusted Publisher (preferred):** push an annotated tag matching `package.json`, e.g. `v0.8.0`. Workflow `.github/workflows/publish.yml` runs tests and `npm publish --provenance`.
+   - **Trusted Publisher (preferred):** push an annotated tag matching `package.json`, e.g. `v0.9.0`. Workflow `.github/workflows/publish.yml` runs tests and `npm publish --provenance`.
    - **Manual:**
      ```bash
      npm login
@@ -159,7 +159,7 @@ Useful scripts:
      npm publish --access public --otp=YOUR_6_DIGIT_OTP
      ```
 5. Confirm on npm: https://www.npmjs.com/package/@pratikpsl/agent-skills
-6. Smoke-test: `npx @pratikpsl/agent-skills@0.8.0 --version` and `dotnet-setup` in a throwaway folder.
+6. Smoke-test: `npx @pratikpsl/agent-skills@0.9.0 --version` and `dotnet-setup` in a throwaway folder.
 
 ---
 
