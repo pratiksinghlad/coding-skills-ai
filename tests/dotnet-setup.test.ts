@@ -11,7 +11,7 @@
 //   4. Unknown IDE name throws with a helpful error message.
 
 import { describe, it, expect } from "vitest";
-import { filterSkillsForIde } from "../src/cli/commands/dotnet-setup.js";
+import { filterSkillsForIde } from "../src/core/ide-map.js";
 import type { SkillEntry } from "../src/core/manifest.js";
 
 // ---------------------------------------------------------------------------

@@ -28,7 +28,7 @@ describe("list — manifest content matches output data", () => {
 
   it("returns all skills declared in manifest", () => {
     const manifest = {
-      name: "@pratikpsl/agent-skills-dotnet",
+      name: "@pratikpsl/agent-skills",
       version: "0.1.0",
       skills: [
         { name: "core", description: "Core principles", path: "AgentSkills/skills/core" },

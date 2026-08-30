@@ -20,12 +20,13 @@ export function addCommand(program: Command): void {
     )
     .option("--all", "Copy all skills from the pack", false)
     .option("--force", "Overwrite existing files", false)
+    .option("--hardlink", "Hardlink shared files where possible", false)
     .option("--path <dir>", "Target project root (default: cwd)", process.cwd())
     .action(
       (
         pack: string,
         skillName: string | undefined,
-        options: { all: boolean; force: boolean; path: string },
+        options: { all: boolean; force: boolean; hardlink: boolean; path: string },
       ) => {
         if (!skillName && !options.all) {
           console.error(
@@ -64,6 +65,7 @@ export function addCommand(program: Command): void {
           packDir,
           targetDir,
           force: options.force,
+          hardlink: options.hardlink,
         });
 
         printSummary(written, skipped);
