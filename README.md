@@ -1,8 +1,8 @@
 # @pratikpsl/agent-skills
 
-> Scaffold and manage AI agent skills across any project — like `shadcn/ui`, but for Cursor, Claude, Codex, Copilot, Antigravity, Windsurf, and Cline.
+> Scaffold and manage AI agent skills across any project — for Cursor, Claude, Codex, Copilot, Antigravity, Windsurf, and Cline.
 
-`@pratikpsl/agent-skills` is a single npm package: a TypeScript CLI plus bundled skill **packs** under `templates/`. No runtime network fetch — packs ship inside the package, so setup works offline after install.
+`@pratikpsl/agent-skills` is a single npm package: a TypeScript CLI plus bundled templates under `templates/`. No runtime network fetch — templates ship inside the package, so setup works offline after install.
 
 ---
 
@@ -18,7 +18,7 @@ Running with **no arguments** automatically scaffolds universal single-file agen
 # Installs instructions across all IDEs with cross-OS hardlinks by default
 npx @pratikpsl/agent-skills
 
-# Or install for a specific IDE directly
+# Or install for a specific IDE / Agent directly
 npx @pratikpsl/agent-skills cursor      # → .cursor/rules/instructions.md
 npx @pratikpsl/agent-skills claude      # → CLAUDE.md
 npx @pratikpsl/agent-skills codex       # → AGENTS.md
@@ -28,147 +28,107 @@ npx @pratikpsl/agent-skills windsurf    # → .windsurfrules
 npx @pratikpsl/agent-skills cline       # → .clinerules
 ```
 
-*(You can also use `bunx @pratikpsl/agent-skills` if running in Bun environments).*
-
-### .NET / C# (Modular Skills Pack)
+### .NET / C# Template
 
 ```bash
-# Install the full .NET/C# skill set + every IDE entry-point
-npx @pratikpsl/agent-skills dotnet-setup
+# Install .NET agent skills + all IDE entry points
+npx @pratikpsl/agent-skills dotnet
 
-# Or install shared skills + one IDE entry-point only
-npx @pratikpsl/agent-skills dotnet-setup cursor      # → .cursor/rules/instructions.md
-npx @pratikpsl/agent-skills dotnet-setup claude       # → CLAUDE.md
-npx @pratikpsl/agent-skills dotnet-setup codex        # → AGENTS.md
-npx @pratikpsl/agent-skills dotnet-setup copilot      # → .github/copilot-instructions.md
-npx @pratikpsl/agent-skills dotnet-setup antigravity  # → .agents/GEMINI.md
+# Install .NET agent skills + specific agent entry point only
+npx @pratikpsl/agent-skills dotnet --agent codex
+npx @pratikpsl/agent-skills dotnet --agent cursor
+```
+
+### React / TypeScript Template
+
+```bash
+# Install React agent skills + all IDE entry points
+npx @pratikpsl/agent-skills react
+
+# Install React agent skills + specific agent entry point only
+npx @pratikpsl/agent-skills react --agent cursor
+npx @pratikpsl/agent-skills react --agent claude
+```
+
+*(You can also use `bunx @pratikpsl/agent-skills` in Bun environments).*
+
+---
+
+## CLI Options
+
+```
+Usage: agent-skills [options] [template]
+
+Arguments:
+  template              Template: default, dotnet, react; agent names install default guidance
+
+Options:
+  -V, --version         output the version number
+  --agent <name>        Install one agent entry point: antigravity, claude, cline, codex, copilot, cursor, windsurf
+  --force               Overwrite installed files (default: false)
+  --no-hardlink         Copy agent entry points instead of hardlinking
+  --path <dir>          Target project root (default: current working directory)
+  -h, --help            display help for command
 ```
 
 ---
 
-## Commands
+## Bundled Templates
 
-| Command | Description |
-| --- | --- |
-| `npx @pratikpsl/agent-skills [ide]` | **Default**: Scaffold single-file instructions with cross-OS hardlinks |
-| `npx @pratikpsl/agent-skills setup [ide]` | Explicit alias for instructions setup |
-| `npx @pratikpsl/agent-skills dotnet-setup [ide]` | Convenience installer for the .NET pack |
-| `npx @pratikpsl/agent-skills init` | Scaffold an empty `AgentSkills/` folder and `index.json` |
-| `npx @pratikpsl/agent-skills list` | List skills in known packs (`default`, `dotnet`) |
-| `npx @pratikpsl/agent-skills list <pack>` | List skills in a specific pack (`default`, `dotnet`, etc.) |
-| `npx @pratikpsl/agent-skills add <pack> <skill>` | Copy one skill into the project |
-| `npx @pratikpsl/agent-skills add <pack> --all` | Copy all skills from a pack |
-| `npx @pratikpsl/agent-skills --help` | Show CLI help |
-| `npx @pratikpsl/agent-skills --version` | Show CLI version |
-
-*(All commands work identically with `bunx`)*
-
-### Options
-
-- `--force` — overwrite existing skill and entry-point files
-- `--hardlink` / `--no-hardlink` — control cross-OS hardlinking for shared entry points
-- `--path <dir>` — target project root (default: `process.cwd()`)
-
----
-
-## Packs
-
-| Pack | Path | Notes |
+| Template | Path | Description |
 | --- | --- | --- |
-| `default` | `templates/default/` | Universal single-file agent instructions, cross-OS hardlinked across all IDEs |
-| `dotnet` | `templates/dotnet/` | .NET/C# skills, agents, memory, IDE entry-points |
-
-Aliases accepted by the CLI:
-- Default pack: `default`, `instructions`, `single-file`, `core`, `standard`, `universal`, `base`, `@pratikpsl/agent-skills`
-- .NET pack: `dotnet`, `skills-dotnet`, `@pratikpsl/agent-skills-dotnet`
-
-The repo also contains a `Skills/` tree of additional drafts and a `plugins/` folder. Those are **not** part of the published npm tarball (see `.npmignore` and the `files` whitelist in `package.json`).
+| `default` | `templates/default/` | Universal single-file agent instructions, cross-OS hardlinked |
+| `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents, memory |
+| `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent |
+| `shared` | `templates/shared/` | Base operating contract, core skills (standards, security), review agents |
 
 ---
 
-## Repository layout
+## Repository Layout
 
 ```
 coding-skills-ai/
 ├── src/
 │   ├── bin/agent-skills.ts     # CLI binary entry
-│   ├── cli/                    # commander wiring + commands
-│   │   └── commands/           # init, list, add, dotnet-setup, setup
-│   └── core/                   # resolve-pack, manifest, copy-skills, ide-map
+│   ├── cli/index.ts            # Commander CLI program
+│   └── core/
+│       ├── ide-map.ts          # IDE entry point definitions and parser
+│       ├── install-template.ts # Installation & merging engine
+│       └── resolve-template.ts # Bundled template resolver
 ├── templates/
-│   ├── default/                # default instructions template
-│   ├── dotnet/                 # shipped pack (AgentSkills/)
-│   └── shared/                 # shared manifest
-├── tests/                      # Vitest suite
-├── Skills/                     # extra drafts (not published)
-├── plugins/                    # local experiments (not published)
-├── .github/workflows/          # CI + npm publish on version tags
-├── bun.lock                    # reproducible lockfile
+│   ├── default/                # Single-file instructions
+│   ├── dotnet/                 # .NET template
+│   ├── react/                  # React template
+│   └── shared/                 # Shared operating contract & memory
+├── tests/                      # Vitest test suite
+├── bun.lock                    # Reproducible lockfile
 ├── package.json
-├── tsconfig.json               # emits to dist/
+├── tsconfig.json
 ├── vitest.config.ts
-├── SECURITY.md                 # Supply chain & vulnerability reporting policy
+├── SECURITY.md
 ├── LICENSE                     # Apache-2.0
 └── README.md
 ```
 
-Build output: `tsc` compiles `src/` → `dist/`. The published binary is `dist/bin/agent-skills.js`. Pack templates stay at package-root `templates/` (included via `files`).
-
 ---
 
-## Local development
+## Local Development
 
 ```bash
 bun install
 bun run build
 bun test
-
-# Optional: try the CLI globally from this checkout
-bun link
-agent-skills --help
-agent-skills list dotnet
 ```
-
-Useful scripts:
-
-| Script | What it does |
-| --- | --- |
-| `bun run build` | `tsc` → `dist/` |
-| `bun test` | Vitest (`tests/**/*.test.ts`) |
-| `bun run test:watch` | Vitest watch mode |
-| `bun run dry-run` | Build + `npm publish --dry-run` |
-
----
-
-## Publish checklist (maintainers)
-
-1. Ensure `main` is green (CI: Bun — build + test).
-2. Confirm version in `package.json` (and `templates/shared/manifest.json`).
-3. Verify the tarball includes templates and compiled `dist/`:
-   ```bash
-   bun run build
-   bun pm pack --dry-run
-   # Expect: dist/** and templates/** (not Skills/ or src/)
-   ```
-4. Publish:
-   - **Trusted Publisher (preferred):** push an annotated tag matching `package.json`, e.g. `v0.9.0`. Workflow `.github/workflows/publish.yml` runs tests and `npm publish --provenance`.
-   - **Manual:**
-     ```bash
-     npm login
-     bun run build && bun test
-     npm publish --access public --otp=YOUR_6_DIGIT_OTP
-     ```
-5. Confirm on npm: https://www.npmjs.com/package/@pratikpsl/agent-skills
-6. Smoke-test: `npx @pratikpsl/agent-skills@0.9.0 --version` and `dotnet-setup` in a throwaway folder.
 
 ---
 
 ## Security
 
-Please see [`SECURITY.md`](./SECURITY.md) for our security policy, provenance verification, and vulnerability reporting procedures.
+Please see [`SECURITY.md`](./SECURITY.md) for our security policy and reporting procedures.
 
 ---
 
 ## License
 
 Apache License 2.0 — see [`LICENSE`](./LICENSE).
+

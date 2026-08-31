@@ -2,37 +2,35 @@
 
 ## Goal
 Implement the requested change with production-quality code, preserving existing behavior and
-minimizing the diff, following the project's own architecture and conventions - unless explicitly
-told otherwise.
+minimizing the diff, following the project's own architecture and conventions.
 
 ## Principles
-- Match existing code style, patterns, naming, architecture, and folder structure.
-- Prefer simple, clean, clear, efficient, maintainable, manageable code over clever or complex solutions.
-- Make the smallest change that satisfies the request; don't touch unrelated code.
-- Favor deletion over addition - don't grow the codebase for changes that don't need it.
-- Reuse existing utilities/helpers/components before writing new ones.
-- No new dependencies unless necessary. If one is needed: popular, actively maintained,
-  permissively licensed (MIT/Apache-2.0), no known security issues.
-- Apply SOLID, DRY, KISS. Single-responsibility functions/classes, Separation of concern. No duplicated logic.
-- No magic numbers/strings - use named constants/enums.
-- Each function must be a maximum of 50 lines.
-- Use meaningful names for classes, methods, variables, and all other code.
-- Handle errors the way the codebase already does.
-- Never hardcode secrets, keys, or credentials; follow the project's existing security practices.
-- Use idiomatic async/non-blocking I/O and ensure the code is free of race conditions and deadlocks.
-- Avoid deprecated APIs and patterns.
-- Comment only where intent isn't obvious from the code itself.
-- Don't change public APIs/interfaces, formatting, or file layout unless the task requires it.
-- Don't add features, abstractions, or "improvements" that weren't asked for.
-- If a requirement is ambiguous or missing critical detail, ask before guessing.
+
+### Scope & Intent
+- Make the smallest change that satisfies the request; touch only what is explicitly required.
+- Do not add unrequested features, speculative abstractions, or unsolicited refactoring (YAGNI).
+- Favor deletion over addition; reuse existing utilities and helpers before creating new ones.
+- If requirements are ambiguous or missing critical details, ask before guessing.
+
+### Code Quality & Design
+- Match existing code style, patterns, naming, error handling, and folder structure.
+- Apply SOLID, DRY, and KISS: single-responsibility functions, separation of concerns, no duplicated logic.
+- Keep functions under 50 lines, nesting depth at most 2 levels (prefer early returns), and signatures under 4 parameters.
+- Use meaningful names and named constants/enums (no magic numbers or strings).
+- Design self-describing APIs, structured schemas, and human-/machine-readable contracts.
+- Comment only where non-obvious rationale is required, not what the code already says.
+
+### Reliability & Security
+- Never hardcode, commit, or log secrets, credentials, tokens, or sensitive user data.
+- Validate and sanitize external input; use parameterized queries to prevent injection.
+- Use idiomatic non-blocking `async`/`await`; ensure code is free of race conditions and deadlocks.
+- Avoid deprecated APIs and patterns; introduce new dependencies only when strictly necessary (permissive license, actively maintained).
 
 ## Definition of Done
-- Builds and runs without errors.
-- No debug code, dead code, unused imports, or temp files left behind.
-- Tests pass; add/update tests for the change if the project has a test suite.
-- The change is minimal, focused, and easy to review.
+- Builds cleanly and all tests pass without errors or warnings.
+- No debug code, dead code, unused imports, or temporary files left behind.
+- Changes are minimal, focused, covered by tests, and easy to review.
 
 ## Agent Memory
-Read `AgentSkills/memory/index.md` at the start of every task (create it if missing); load only the relevant domain file(s) to avoid repeating past mistakes.
-When a mistake is made and corrected, record a clear, actionable lesson in the matching domain file `AgentSkills/memory/lessons/<domain>.md` (create if missing) for future reference.
-Keep lessons clear and understandable for both humans and agents, and maintain `index.md` by registering new domains and keeping lesson counts accurate.
+- Read `AgentSkills/memory/index.md` at the start of every task (create if missing); load only relevant domain lessons.
+- When a mistake is corrected or a durable rule discovered, record an actionable lesson in `AgentSkills/memory/lessons/<domain>.md` (create if missing) and update `index.md`.
