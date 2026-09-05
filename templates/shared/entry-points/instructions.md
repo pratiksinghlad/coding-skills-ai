@@ -3,16 +3,17 @@
 > Operating instructions and engineering guidelines for AI agents and human contributors.
 
 ## Operating Contract
-Always follow `AgentSkills/OPERATING.md` before making changes. Review relevant agent personas in `AgentSkills/agents/` and skills in `AgentSkills/skills/`.
+Always follow `AgentSkills/OPERATING.md` before making changes. Review relevant agent personas in `AgentSkills/agents/` (`architect.md`, `reviewer.md`, `developer.md`) and skills in `AgentSkills/skills/` (including `AgentSkills/skills/review/SKILL.md`).
 
 ## Goal
 Implement requested changes with production-quality code, preserving existing behavior and
 minimizing the diff, following the project's own architecture, standards, and conventions.
 
 ## Core Principles
-- **Core Principles**: Adhere strictly to `AgentSkills/skills/principles/SKILL.md`.
+- **Principles**: Adhere strictly to `AgentSkills/skills/principles/SKILL.md`.
 - **Standards**: Adhere strictly to `AgentSkills/skills/standards/SKILL.md`.
 - **Security**: Adhere strictly to `AgentSkills/skills/security/SKILL.md`.
+- **Review**: Adhere strictly to `AgentSkills/skills/review/SKILL.md`.
 - **Think Before Coding**: Thoroughly understand requirements. If ambiguous, ask before guessing.
 - **Surgical Changes**: Make the smallest change that satisfies the request; touch only what is explicitly required.
 - **Simplicity First (KISS / YAGNI)**: Favor simple, clear, maintainable solutions over clever abstractions. Do not add unrequested features.

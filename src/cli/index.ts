@@ -22,7 +22,7 @@ function runInstall(template: string | undefined, options: CliOptions): void {
     throw new Error("Choose an agent with either the argument or --agent, not both.");
   }
 
-  const selectedTemplate = implicitAgent ? "default" : template ?? "default";
+  const selectedTemplate = implicitAgent ? "shared" : template ?? "shared";
   const agent = implicitAgent ?? parseAgentName(options.agent);
   const targetDir = options.path;
   const hardlink = options.hardlink ?? true;
@@ -53,10 +53,11 @@ program
   .name("agent-skills")
   .description("Install shared coding-agent guidance and a framework template")
   .version(version)
-  .argument("[template]", `Template: ${TEMPLATE_NAMES.join(", ")}; agent names install default guidance`)
+  .argument("[template]", `Template: ${TEMPLATE_NAMES.join(", ")}; agent names install shared guidance`)
   .option("--agent <name>", `Install one agent entry point: ${AGENT_NAMES.join(", ")}`)
   .option("--force", "Overwrite installed files", false)
-  .option("--no-hardlink", "Copy agent entry points instead of hardlinking")
+  .option("--hardlink", "Hardlink matching entry points", true)
+  .option("--no-hardlink", "Do not hardlink matching entry points")
   .option("--path <dir>", "Target project root", process.cwd())
   .action((template: string | undefined, options: CliOptions) => runInstall(template, options));
 

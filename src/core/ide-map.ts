@@ -1,11 +1,11 @@
 export const IDE_ENTRY_POINTS: Record<string, string> = {
-  antigravity: ".agents/GEMINI.md",
+  antigravity: ".agents/rules/GEMINI.md",
   claude: "CLAUDE.md",
   cline: ".clinerules",
+  code: "AGENTS.md",
   codex: "AGENTS.md",
   copilot: ".github/copilot-instructions.md",
   cursor: ".cursor/rules/instructions.md",
-  windsurf: ".windsurfrules",
 };
 
 export const AGENT_NAMES = Object.keys(IDE_ENTRY_POINTS);

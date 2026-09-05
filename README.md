@@ -1,6 +1,6 @@
 # @pratikpsl/agent-skills
 
-> Scaffold and manage AI agent skills across any project — for Cursor, Claude, Codex, Copilot, Antigravity, Windsurf, and Cline.
+> Scaffold and manage AI agent skills across any project — for Cursor, Claude, Codex, Copilot, Antigravity, and Cline.
 
 `@pratikpsl/agent-skills` is a single npm package: a TypeScript CLI plus bundled templates under `templates/`. No runtime network fetch — templates ship inside the package, so setup works offline after install.
 
@@ -10,22 +10,31 @@
 
 From any project root (Node 18+ or Bun):
 
-### Default: Single-File Instructions (Cross-OS Hardlinked)
+### Shared Agent Skills (Universal Skills & Personas)
 
-Running with **no arguments** automatically scaffolds universal single-file agent instructions across all IDEs using cross-OS hardlinks:
+Running with an **agent name** or `shared` automatically installs shared skills (`AgentSkills/skills/review`, `AgentSkills/skills/principles`, `AgentSkills/skills/standards`, `AgentSkills/skills/security`), agent personas (`AgentSkills/agents/architect.md`, `AgentSkills/agents/reviewer.md`), and the agent's entry point:
 
 ```bash
-# Installs instructions across all IDEs with cross-OS hardlinks by default
-npx @pratikpsl/agent-skills
+# Install shared skills + specific IDE / Agent entry point
+npx @pratikpsl/agent-skills antigravity # → .agents/rules/GEMINI.md + AgentSkills/
+npx @pratikpsl/agent-skills cursor      # → .cursor/rules/instructions.md + AgentSkills/
+npx @pratikpsl/agent-skills claude      # → CLAUDE.md + AgentSkills/
+npx @pratikpsl/agent-skills code        # → AGENTS.md + AgentSkills/
+npx @pratikpsl/agent-skills codex       # → AGENTS.md + AgentSkills/
+npx @pratikpsl/agent-skills copilot     # → .github/copilot-instructions.md + AgentSkills/
+npx @pratikpsl/agent-skills cline       # → .clinerules + AgentSkills/
 
-# Or install for a specific IDE / Agent directly
-npx @pratikpsl/agent-skills cursor      # → .cursor/rules/instructions.md
-npx @pratikpsl/agent-skills claude      # → CLAUDE.md
-npx @pratikpsl/agent-skills codex       # → AGENTS.md
-npx @pratikpsl/agent-skills copilot     # → .github/copilot-instructions.md
-npx @pratikpsl/agent-skills antigravity # → .agents/GEMINI.md
-npx @pratikpsl/agent-skills windsurf    # → .windsurfrules
-npx @pratikpsl/agent-skills cline       # → .clinerules
+# Install shared skills across all IDE entry points
+npx @pratikpsl/agent-skills shared
+```
+
+### Compact Single-File Instructions
+
+To scaffold compact single-file agent instructions without the `AgentSkills/` folder:
+
+```bash
+npx @pratikpsl/agent-skills default
+npx @pratikpsl/agent-skills default --agent antigravity
 ```
 
 ### .NET / C# Template
@@ -35,7 +44,7 @@ npx @pratikpsl/agent-skills cline       # → .clinerules
 npx @pratikpsl/agent-skills dotnet
 
 # Install .NET agent skills + specific agent entry point only
-npx @pratikpsl/agent-skills dotnet --agent codex
+npx @pratikpsl/agent-skills dotnet --agent code
 npx @pratikpsl/agent-skills dotnet --agent cursor
 ```
 
@@ -60,13 +69,14 @@ npx @pratikpsl/agent-skills react --agent claude
 Usage: agent-skills [options] [template]
 
 Arguments:
-  template              Template: default, dotnet, react; agent names install default guidance
+  template              Template: default, dotnet, react, shared; agent names install shared guidance
 
 Options:
   -V, --version         output the version number
-  --agent <name>        Install one agent entry point: antigravity, claude, cline, codex, copilot, cursor, windsurf
+  --agent <name>        Install one agent entry point: antigravity, claude, cline, code, codex, copilot, cursor
   --force               Overwrite installed files (default: false)
-  --no-hardlink         Copy agent entry points instead of hardlinking
+  --hardlink            Hardlink matching entry points (default: true)
+  --no-hardlink         Do not hardlink matching entry points
   --path <dir>          Target project root (default: current working directory)
   -h, --help            display help for command
 ```
@@ -77,10 +87,10 @@ Options:
 
 | Template | Path | Description |
 | --- | --- | --- |
-| `default` | `templates/default/` | Universal single-file agent instructions, cross-OS hardlinked |
-| `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents, memory |
-| `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent |
-| `shared` | `templates/shared/` | Base operating contract, core skills (principles, standards, security), review agents |
+| `shared` | `templates/shared/` | Base operating contract, core skills (principles, standards, security, review), review & architecture agents (`architect.md`, `reviewer.md`) |
+| `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents (`architect.md`, `developer.md`), memory |
+| `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent (`developer.md`) |
+| `default` | `templates/default/` | Compact single-file agent instructions without AgentSkills folder |
 
 ---
 

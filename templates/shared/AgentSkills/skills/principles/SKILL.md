@@ -28,4 +28,4 @@ Bug fix = root cause, not symptom. A bug report names a symptom. Grep every call
 - **Surgical Changes**: Make the smallest change that satisfies the request; touch only what is explicitly required.
 - **Simplicity First (KISS / YAGNI)**: Favor simple, clear, maintainable solutions over clever abstractions. Do not add unrequested features.
 - **Zero-Error Builds**: Every change must compile cleanly and pass existing and newly added tests.
-- **Standards & Security**: Adhere strictly to `AgentSkills/skills/standards/SKILL.md` and `AgentSkills/skills/security/SKILL.md`.
+- **Standards, Security & Review**: Adhere strictly to `AgentSkills/skills/standards/SKILL.md`, `AgentSkills/skills/security/SKILL.md`, and `AgentSkills/skills/review/SKILL.md`.

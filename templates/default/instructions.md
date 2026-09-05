@@ -26,6 +26,11 @@ minimizing the diff, following the project's own architecture and conventions.
 - Use idiomatic non-blocking `async`/`await`; ensure code is free of race conditions and deadlocks.
 - Avoid deprecated APIs and patterns; introduce new dependencies only when strictly necessary (permissive license, actively maintained).
 
+### Review & Verification
+- Review code against five core dimensions: correctness (boundaries, errors, race conditions), readability (depth <= 2, functions <= 50 lines), architecture (SOLID, KISS), security, and performance.
+- Review tests first; address root causes over symptoms (fix shared logic once).
+- Categorize findings clearly (Critical, Important, Suggestion) and provide concrete, actionable fixes.
+
 ## Definition of Done
 - Builds cleanly and all tests pass without errors or warnings.
 - No debug code, dead code, unused imports, or temporary files left behind.
