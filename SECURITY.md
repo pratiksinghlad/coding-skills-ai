@@ -6,7 +6,7 @@ We release patches and security updates for the current active release line.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
+| 1.x     | :white_check_mark: |
 | < 1.0.0 | :x:                |
 
 ## Reporting a Vulnerability
