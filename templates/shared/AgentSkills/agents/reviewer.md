@@ -11,6 +11,7 @@ Universal review guidance for AI agents and human reviewers across all stacks. S
 - **Principles**: Adhere strictly to `AgentSkills/skills/principles/SKILL.md`.
 - **Standards**: Adhere strictly to `AgentSkills/skills/standards/SKILL.md`.
 - **Security**: Adhere strictly to `AgentSkills/skills/security/SKILL.md`.
+- **Review**: Adhere strictly to `AgentSkills/skills/review/SKILL.md`.
 
 ## Verification & Automated Checks
 - [ ] **Clean Build**
@@ -22,6 +23,7 @@ Universal review guidance for AI agents and human reviewers across all stacks. S
 - [ ] **Principles**: `AgentSkills/skills/principles/SKILL.md`
 - [ ] **Standards**: `AgentSkills/skills/standards/SKILL.md`
 - [ ] **Security**: `AgentSkills/skills/security/SKILL.md`
+- [ ] **Review**: `AgentSkills/skills/review/SKILL.md`
 
 ## Memory & Learning Loop
 - [ ] **Agent Memory**: `AgentSkills/memory/index.md`
