@@ -18,19 +18,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "24"
 
       - name: Install dependencies
-        run: npm install
+        run: bun install --frozen-lockfile
 
       - name: Build
-        run: npm run build
+        run: bun run build
 
       - name: Run tests
-        run: npm test
+        run: bun test
 
       # Publish the single unified package containing the CLI and all templates using Trusted Publisher OIDC
       - name: Publish @pratikpsl/agent-skills
@@ -40,5 +45,6 @@ jobs:
       - name: Log published version
         run: |
           echo "Published tag: ${{ github.ref_name }}"
-          echo "Package version: $(node -p "require('./package.json').version")"
+          echo "Package version: $(bun -e "console.log(require('./package.json').version)")"
+
 

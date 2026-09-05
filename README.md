@@ -80,7 +80,7 @@ Options:
 | `default` | `templates/default/` | Universal single-file agent instructions, cross-OS hardlinked |
 | `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents, memory |
 | `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent |
-| `shared` | `templates/shared/` | Base operating contract, core skills (standards, security), review agents |
+| `shared` | `templates/shared/` | Base operating contract, core skills (principles, standards, security), review agents |
 
 ---
 
