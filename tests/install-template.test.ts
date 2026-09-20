@@ -50,6 +50,8 @@ describe("installTemplate", () => {
     install(targetDir);
 
     expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("react-typescript");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/react-typescript/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
@@ -102,6 +104,8 @@ describe("installTemplate", () => {
     expect(readFileSync(path.join(targetDir, "AgentSkills/agents/developer.md"), "utf8")).toContain(".NET Developer");
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/reviewer.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/architect.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("dotnet-best-practices");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
@@ -120,12 +124,8 @@ describe("installTemplate", () => {
     expect(agentsContent).toContain("principles/SKILL.md");
     expect(agentsContent).toContain("review/SKILL.md");
 
-    // Claude.md shares identical content with AGENTS.md
-    const claudePath = path.join(targetDir, "CLAUDE.md");
-    expect(existsSync(claudePath)).toBe(true);
-    const claudeContent = readFileSync(claudePath, "utf8");
-    expect(claudeContent).toBe(agentsContent);
-    expect(claudeContent).toContain("review/SKILL.md");
+    // Claude uses AGENTS.md, so CLAUDE.md is not generated
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
 
     // Antigravity rules with frontmatter and relative paths
     const geminiPath = path.join(targetDir, ".agents/rules/GEMINI.md");
@@ -154,14 +154,12 @@ describe("installTemplate", () => {
     const clineContent = readFileSync(clinePath, "utf8");
     expect(clineContent).toBe(agentsContent);
 
-    // Matching entry points (AGENTS.md, CLAUDE.md, and .clinerules) are hardlinked
-    expect(statSync(agentsPath).ino).toBe(statSync(claudePath).ino);
+    // Matching entry points (AGENTS.md and .clinerules) are hardlinked
     expect(statSync(agentsPath).ino).toBe(statSync(clinePath).ino);
 
-    // Edits to one reflect in the others on disk
-    writeFileSync(claudePath, "shared dynamic content", "utf8");
+    // Edits to one reflect in the other on disk
+    writeFileSync(clinePath, "shared dynamic content", "utf8");
     expect(readFileSync(agentsPath, "utf8")).toBe("shared dynamic content");
-    expect(readFileSync(clinePath, "utf8")).toBe("shared dynamic content");
 
     // Divergent entry points remain separate files with distinct inodes
     expect(statSync(geminiPath).ino).not.toBe(statSync(agentsPath).ino);
@@ -226,6 +224,23 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
   });
 
+  it("supports installing claude agent entry point mapping to AGENTS.md", () => {
+    const targetDir = makeTempDir();
+    installTemplate({
+      agent: "claude",
+      force: false,
+      sharedDir: resolveSharedTemplate(),
+      targetDir,
+      templateDir: resolveTemplate("react"),
+    });
+
+    const agentsPath = path.join(targetDir, "AGENTS.md");
+    expect(existsSync(agentsPath)).toBe(true);
+    const content = readFileSync(agentsPath, "utf8");
+    expect(content).toContain("review/SKILL.md");
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
+  });
+
   it("disables hardlinks and writes separate files when hardlink is false", () => {
     const targetDir = makeTempDir();
     installTemplate({
@@ -237,18 +252,15 @@ describe("installTemplate", () => {
     });
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const claudePath = path.join(targetDir, "CLAUDE.md");
     const clinePath = path.join(targetDir, ".clinerules");
     expect(existsSync(agentsPath)).toBe(true);
-    expect(existsSync(claudePath)).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
     expect(existsSync(clinePath)).toBe(true);
 
-    expect(statSync(claudePath).ino).not.toBe(statSync(clinePath).ino);
-    expect(statSync(agentsPath).ino).not.toBe(statSync(claudePath).ino);
+    expect(statSync(agentsPath).ino).not.toBe(statSync(clinePath).ino);
 
-    writeFileSync(claudePath, "independent claude file", "utf8");
-    expect(readFileSync(clinePath, "utf8")).not.toBe("independent claude file");
-    expect(readFileSync(agentsPath, "utf8")).not.toBe("independent claude file");
+    writeFileSync(clinePath, "independent cline file", "utf8");
+    expect(readFileSync(agentsPath, "utf8")).not.toBe("independent cline file");
   });
 
   it("hardlinks root entry points in default template while keeping nested entry points separate", () => {
@@ -260,22 +272,19 @@ describe("installTemplate", () => {
     });
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const claudePath = path.join(targetDir, "CLAUDE.md");
     const clinePath = path.join(targetDir, ".clinerules");
     const geminiPath = path.join(targetDir, ".agents/rules/GEMINI.md");
 
     expect(existsSync(agentsPath)).toBe(true);
-    expect(existsSync(claudePath)).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
     expect(existsSync(clinePath)).toBe(true);
     expect(existsSync(geminiPath)).toBe(true);
 
-    expect(statSync(agentsPath).ino).toBe(statSync(claudePath).ino);
     expect(statSync(agentsPath).ino).toBe(statSync(clinePath).ino);
     expect(statSync(geminiPath).ino).not.toBe(statSync(agentsPath).ino);
 
-    writeFileSync(claudePath, "default synchronized instructions", "utf8");
+    writeFileSync(clinePath, "default synchronized instructions", "utf8");
     expect(readFileSync(agentsPath, "utf8")).toBe("default synchronized instructions");
-    expect(readFileSync(clinePath, "utf8")).toBe("default synchronized instructions");
   });
 
   it("hardlinks AGENTS.md and matching entry points when custom template content is identical", () => {
@@ -298,13 +307,14 @@ describe("installTemplate", () => {
     });
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const claudePath = path.join(targetDir, "CLAUDE.md");
+    const clinePath = path.join(targetDir, ".clinerules");
     expect(existsSync(agentsPath)).toBe(true);
-    expect(existsSync(claudePath)).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
+    expect(existsSync(clinePath)).toBe(true);
 
-    expect(statSync(agentsPath).ino).toBe(statSync(claudePath).ino);
+    expect(statSync(agentsPath).ino).toBe(statSync(clinePath).ino);
     writeFileSync(agentsPath, "synchronized instructions", "utf8");
-    expect(readFileSync(claudePath, "utf8")).toBe("synchronized instructions");
+    expect(readFileSync(clinePath, "utf8")).toBe("synchronized instructions");
   });
 
   it("falls back to file write when linkSync throws an error", () => {
@@ -324,14 +334,12 @@ describe("installTemplate", () => {
     linkSpy.mockRestore();
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const claudePath = path.join(targetDir, "CLAUDE.md");
     const clinePath = path.join(targetDir, ".clinerules");
     expect(existsSync(agentsPath)).toBe(true);
-    expect(existsSync(claudePath)).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
     expect(existsSync(clinePath)).toBe(true);
-    expect(readFileSync(claudePath, "utf8")).toContain("review/SKILL.md");
     expect(readFileSync(clinePath, "utf8")).toContain("review/SKILL.md");
-    expect(statSync(claudePath).ino).not.toBe(statSync(agentsPath).ino);
+    expect(statSync(clinePath).ino).not.toBe(statSync(agentsPath).ino);
   });
 
   it("installs shared template containing AgentSkills and review skill across entry points", () => {
@@ -349,6 +357,8 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/reviewer.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/architect.agent.md"))).toBe(false);
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/reviewer.agent.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("principles");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/review/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
@@ -360,7 +370,7 @@ describe("installTemplate", () => {
     expect(operatingContent).toContain("review/SKILL.md");
 
     expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
-    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
     expect(existsSync(path.join(targetDir, ".agents/rules/GEMINI.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, ".cursor/rules/instructions.md"))).toBe(true);
   });
@@ -438,5 +448,96 @@ describe("installTemplate", () => {
     expect(cursorContent).toContain("alwaysApply: true");
     expect(cursorContent).toContain("../../AgentSkills/skills/review/SKILL.md");
     expect(cursorContent).not.toContain("AGENTS.md");
+  });
+
+  it("installs python template with shared skills, typed agents, and python-specific skills", () => {
+    const targetDir = makeTempDir();
+    installTemplate({
+      force: false,
+      hardlink: true,
+      sharedDir: resolveSharedTemplate(),
+      targetDir,
+      templateDir: resolveTemplate("python"),
+    });
+
+    // Shared skills are present
+    expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("python-best-practices");
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/review/SKILL.md"))).toBe(true);
+
+    // Python-specific skills are present
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-typing/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-best-practices/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/testing/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/performance/SKILL.md"))).toBe(true);
+
+    // Agent personas are present and correct
+    expect(existsSync(path.join(targetDir, "AgentSkills/agents/developer.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/agents/architect.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/agents/reviewer.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/agents/developer.md"), "utf8")).toContain("Python Developer");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/agents/architect.md"), "utf8")).toContain("Python Architect");
+
+    // Python-specific skill content
+    const typingContent = readFileSync(path.join(targetDir, "AgentSkills/skills/python-typing/SKILL.md"), "utf8");
+    expect(typingContent).toContain("pydantic");
+    expect(typingContent).toContain("mypy");
+    const bestPracticesContent = readFileSync(path.join(targetDir, "AgentSkills/skills/python-best-practices/SKILL.md"), "utf8");
+    expect(bestPracticesContent).toContain("uv");
+    expect(bestPracticesContent).toContain("PEP 8");
+
+    // Entry points exist
+    expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
+  });
+
+  it("installs rust template with shared skills, typed agents, and rust-specific skills", () => {
+    const targetDir = makeTempDir();
+    installTemplate({
+      force: false,
+      hardlink: true,
+      sharedDir: resolveSharedTemplate(),
+      targetDir,
+      templateDir: resolveTemplate("rust"),
+    });
+
+    // Shared skills are present
+    expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("rust-best-practices");
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/review/SKILL.md"))).toBe(true);
+
+    // Rust-specific skills are present
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-ownership/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-best-practices/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/testing/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/performance/SKILL.md"))).toBe(true);
+
+    // Agent personas are present and correct
+    expect(existsSync(path.join(targetDir, "AgentSkills/agents/developer.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/agents/architect.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/agents/reviewer.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/agents/developer.md"), "utf8")).toContain("Rust Developer");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/agents/architect.md"), "utf8")).toContain("Rust Architect");
+
+    // Rust-specific skill content
+    const ownershipContent = readFileSync(path.join(targetDir, "AgentSkills/skills/rust-ownership/SKILL.md"), "utf8");
+    expect(ownershipContent).toContain("Arc<Mutex<T>>");
+    expect(ownershipContent).toContain("unwrap()");
+    const bestPracticesContent = readFileSync(path.join(targetDir, "AgentSkills/skills/rust-best-practices/SKILL.md"), "utf8");
+    expect(bestPracticesContent).toContain("clippy");
+    expect(bestPracticesContent).toContain("thiserror");
+    expect(bestPracticesContent).toContain("tracing");
+
+    // Entry points exist
+    expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
   });
 });

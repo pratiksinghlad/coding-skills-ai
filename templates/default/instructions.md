@@ -18,7 +18,8 @@ minimizing the diff, following the project's own architecture and conventions.
 - Keep functions under 50 lines, nesting depth at most 2 levels (prefer early returns), and signatures under 4 parameters.
 - Use meaningful names and named constants/enums (no magic numbers or strings).
 - Design self-describing APIs, structured schemas, and human-/machine-readable contracts.
-- Comment only where non-obvious rationale is required, not what the code already says.
+- Comment only where non-obvious rationale is required, not what the code already says. Comments should explain "why" not "what". CODE SHOULD BE SELF-DESCRIBING.
+
 
 ### Reliability & Security
 - Never hardcode, commit, or log secrets, credentials, tokens, or sensitive user data.
@@ -30,9 +31,10 @@ minimizing the diff, following the project's own architecture and conventions.
 - Review code against five core dimensions: correctness (boundaries, errors, race conditions), readability (depth <= 2, functions <= 50 lines), architecture (SOLID, KISS), security, and performance.
 - Review tests first; address root causes over symptoms (fix shared logic once).
 - Categorize findings clearly (Critical, Important, Suggestion) and provide concrete, actionable fixes.
+- Maximum 2 levels of nesting; prefer early returns to flatten control flow.
 
 ## Definition of Done
-- Builds cleanly and all tests pass without errors or warnings.
+- Builds cleanly without any errors.
 - No debug code, dead code, unused imports, or temporary files left behind.
 - Changes are minimal, focused, covered by tests, and easy to review.
 

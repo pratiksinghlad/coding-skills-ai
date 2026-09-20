@@ -17,7 +17,7 @@ describe("ide-map", () => {
     expect(IDE_ENTRY_POINTS.cursor).toBe(".cursor/rules/instructions.md");
     expect(IDE_ENTRY_POINTS.code).toBe("AGENTS.md");
     expect(IDE_ENTRY_POINTS.codex).toBe("AGENTS.md");
-    expect(IDE_ENTRY_POINTS.claude).toBe("CLAUDE.md");
+    expect(IDE_ENTRY_POINTS.claude).toBe("AGENTS.md");
     expect(IDE_ENTRY_POINTS.copilot).toBe(".github/copilot-instructions.md");
     expect(IDE_ENTRY_POINTS.antigravity).toBe(".agents/rules/GEMINI.md");
     expect(IDE_ENTRY_POINTS.cline).toBe(".clinerules");
@@ -27,6 +27,7 @@ describe("ide-map", () => {
     expect(parseAgentName("CURSOR")).toBe("cursor");
     expect(parseAgentName("Codex")).toBe("codex");
     expect(parseAgentName("CODE")).toBe("code");
+    expect(parseAgentName("Claude")).toBe("claude");
     expect(parseAgentName("antigravity")).toBe("antigravity");
     expect(parseAgentName(undefined)).toBeUndefined();
   });
@@ -39,10 +40,12 @@ describe("ide-map", () => {
 
 describe("resolve-template", () => {
   it("resolves valid template directories", () => {
-    expect(TEMPLATE_NAMES).toEqual(["default", "dotnet", "react", "shared"]);
+    expect(TEMPLATE_NAMES).toEqual(["default", "dotnet", "python", "react", "rust", "shared"]);
     expect(resolveTemplate("default")).toContain(path.join("templates", "default"));
     expect(resolveTemplate("dotnet")).toContain(path.join("templates", "dotnet"));
+    expect(resolveTemplate("python")).toContain(path.join("templates", "python"));
     expect(resolveTemplate("react")).toContain(path.join("templates", "react"));
+    expect(resolveTemplate("rust")).toContain(path.join("templates", "rust"));
     expect(resolveTemplate("shared")).toContain(path.join("templates", "shared"));
     expect(resolveSharedTemplate()).toContain(path.join("templates", "shared"));
   });
@@ -51,3 +54,4 @@ describe("resolve-template", () => {
     expect(() => resolveTemplate("unknown-template")).toThrowError(/Unknown template "unknown-template"/);
   });
 });
+

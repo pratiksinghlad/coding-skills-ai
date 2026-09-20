@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export const TEMPLATE_NAMES = ["default", "dotnet", "react", "shared"];
+export const TEMPLATE_NAMES = ["default", "dotnet", "python", "react", "rust", "shared"];
 
 function templatesRoot(): string {
   return path.resolve(__dirname, "..", "..", "templates");

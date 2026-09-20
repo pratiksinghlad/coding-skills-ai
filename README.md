@@ -18,7 +18,7 @@ Running with an **agent name** or `shared` automatically installs shared skills 
 # Install shared skills + specific IDE / Agent entry point
 npx @pratikpsl/agent-skills antigravity # → .agents/rules/GEMINI.md + AgentSkills/
 npx @pratikpsl/agent-skills cursor      # → .cursor/rules/instructions.md + AgentSkills/
-npx @pratikpsl/agent-skills claude      # → CLAUDE.md + AgentSkills/
+npx @pratikpsl/agent-skills claude      # → AGENTS.md + AgentSkills/
 npx @pratikpsl/agent-skills code        # → AGENTS.md + AgentSkills/
 npx @pratikpsl/agent-skills codex       # → AGENTS.md + AgentSkills/
 npx @pratikpsl/agent-skills copilot     # → .github/copilot-instructions.md + AgentSkills/
@@ -59,6 +59,28 @@ npx @pratikpsl/agent-skills react --agent cursor
 npx @pratikpsl/agent-skills react --agent claude
 ```
 
+### Python Template
+
+```bash
+# Install Python agent skills + all IDE entry points
+npx @pratikpsl/agent-skills python
+
+# Install Python agent skills + specific agent entry point only
+npx @pratikpsl/agent-skills python --agent cursor
+npx @pratikpsl/agent-skills python --agent claude
+```
+
+### Rust Template
+
+```bash
+# Install Rust agent skills + all IDE entry points
+npx @pratikpsl/agent-skills rust
+
+# Install Rust agent skills + specific agent entry point only
+npx @pratikpsl/agent-skills rust --agent cursor
+npx @pratikpsl/agent-skills rust --agent claude
+```
+
 *(You can also use `bunx @pratikpsl/agent-skills` in Bun environments).*
 
 ---
@@ -69,7 +91,7 @@ npx @pratikpsl/agent-skills react --agent claude
 Usage: agent-skills [options] [template]
 
 Arguments:
-  template              Template: default, dotnet, react, shared; agent names install shared guidance
+  template              Template: default, dotnet, python, react, rust, shared; agent names install shared guidance
 
 Options:
   -V, --version         output the version number
@@ -89,7 +111,9 @@ Options:
 | --- | --- | --- |
 | `shared` | `templates/shared/` | Base operating contract, core skills (principles, standards, security, review), review & architecture agents (`architect.md`, `reviewer.md`) |
 | `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents (`architect.md`, `developer.md`), memory |
+| `python` | `templates/python/` | Python skills (PEP 8, uv, typing, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
 | `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent (`developer.md`) |
+| `rust` | `templates/rust/` | Rust skills (ownership, best-practices, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
 | `default` | `templates/default/` | Compact single-file agent instructions without AgentSkills folder |
 
 ---
@@ -108,7 +132,9 @@ coding-skills-ai/
 ├── templates/
 │   ├── default/                # Single-file instructions
 │   ├── dotnet/                 # .NET template
+│   ├── python/                 # Python template
 │   ├── react/                  # React template
+│   ├── rust/                   # Rust template
 │   └── shared/                 # Shared operating contract & memory
 ├── tests/                      # Vitest test suite
 ├── bun.lock                    # Reproducible lockfile
