@@ -3,7 +3,7 @@
 > Operating instructions and engineering guidelines for AI agents and human contributors.
 
 ## Operating Contract
-Always follow `AgentSkills/OPERATING.md` before making changes. Review relevant agent personas in `AgentSkills/agents/` (`architect.md`, `reviewer.md`, `developer.md`) and skills in `AgentSkills/skills/` (including `AgentSkills/skills/review/SKILL.md`).
+Always follow `AgentSkills/OPERATING.md` before making changes. Consult `AgentSkills/skills/index.md` to load task-relevant skills (including `AgentSkills/skills/review/SKILL.md`), and review relevant agent personas in `AgentSkills/agents/` (`architect.md`, `reviewer.md`, `developer.md`).
 
 ## Goal
 Implement requested changes with production-quality code, preserving existing behavior and
@@ -20,7 +20,7 @@ minimizing the diff, following the project's own architecture, standards, and co
 - **Zero-Error Builds**: Every change must compile cleanly and pass existing and newly added tests.
 
 ## Definition of Done
-- Builds cleanly and all tests pass without errors or warnings.
+- Builds cleanly without any errors.
 - No debug code, dead code, unused imports, or temporary files left behind.
 - Changes are minimal, focused, covered by tests, and easy to review.
 

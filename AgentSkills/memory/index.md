@@ -2,6 +2,6 @@
 
 | Domain | File | Lessons |
 | --- | --- | --- |
-| ide-scaffolding | lessons/ide-scaffolding.md | 4 |
+| ide-scaffolding | lessons/ide-scaffolding.md | 6 |
 
-Total lessons: 4
+Total lessons: 6
