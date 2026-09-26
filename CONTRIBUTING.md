@@ -16,27 +16,37 @@ bun test
 
 | Path | Purpose |
 | --- | --- |
-| `src/` | TypeScript CLI + core (`bin/`, `cli/`, `core/`) |
-| `templates/` | Bundled skill packs shipped on npm (e.g. `dotnet/`) |
+| `src/` | TypeScript CLI (`bin/`, `cli/`, `core/`) |
+| `templates/<name>/skills/<skill>/SKILL.md` | Bundled Cursor skills shipped on npm |
+| `templates/shared/rules/` | Thin always-on Cursor rule copied to `.cursor/rules/` |
 | `tests/` | Vitest suite |
-| `Skills/` | Extra skill drafts — **not** published |
-| `plugins/` | Local plugin experiments — **not** published |
+
+## Skill files
+
+Every `SKILL.md` needs YAML frontmatter:
+
+```yaml
+---
+name: skill-name
+description: Use when ...
+---
+```
+
+`name` is lowercase words separated by hyphens, and it must match the folder name. `description` says when Cursor should load the skill.
+
+Optional `references/`, `scripts/`, and `assets/` directories next to `SKILL.md` are copied with the skill.
 
 ## Workflow
 
 1. Create a branch from `main`.
-2. Make focused changes (docs, CLI, templates, or tests).
+2. Change the CLI, templates, or tests.
 3. Run `bun run build && bun test`.
 4. Open a PR against `main` with a short summary and test plan.
-
-## Packs
-
-Pack templates live under `templates/<pack>/` with a `manifest.json`. Keep manifest paths in sync with files on disk. Bump the pack `version` in the manifest when shipping skill content changes.
 
 ## Code style
 
 - TypeScript, ESM (`"type": "module"`).
-- Prefer small, testable helpers in `src/core/`.
+- Prefer small helpers in `src/core/`.
 - Do not commit `dist/`, `node_modules/`, or `.tgz` artifacts.
 
 ## License
