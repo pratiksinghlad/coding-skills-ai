@@ -1,8 +1,8 @@
 {
   "name": "@pratikpsl/agent-skills",
   "type": "module",
-  "version": "1.3.0",
-  "description": "CLI to scaffold and manage AI agent skills across projects — like shadcn/ui, but for Cursor, Claude, Codex, Copilot, Antigravity, and more",
+  "version": "2.0.0",
+  "description": "CLI that installs Cursor workspace skills into .cursor/skills",
   "bin": {
     "agent-skills": "dist/bin/agent-skills.js"
   },
@@ -20,16 +20,14 @@
     "ai",
     "agent-skills",
     "cursor",
-    "claude",
+    "cursor-skills",
+    "workspace-skills",
     "cli",
     "scaffold",
-    "copilot",
-    "codex",
     "dotnet",
     "python",
     "rust",
-    "agents",
-    "antigravity",
+    "react",
     "typescript"
   ],
   "homepage": "https://github.com/pratiksinghlad/coding-skills-ai#readme",

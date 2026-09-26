@@ -1,154 +1,113 @@
 # @pratikpsl/agent-skills
 
-> Scaffold and manage AI agent skills across any project — for Cursor, Claude, Codex, Copilot, Antigravity, and Cline.
+> Install Cursor workspace skills into `.cursor/skills/`.
 
-`@pratikpsl/agent-skills` is a single npm package: a TypeScript CLI plus bundled templates under `templates/`. No runtime network fetch — templates ship inside the package, so setup works offline after install.
+`@pratikpsl/agent-skills` is one npm package: a TypeScript CLI and offline templates under `templates/`. Nothing is fetched at install time.
+
+Cursor discovers each skill from `.cursor/skills/<skill-name>/SKILL.md`. The `name` in the frontmatter matches the folder. The `description` says when to use the skill. Docs: [Cursor Agent Skills](https://cursor.com/docs/skills.md).
 
 ---
 
 ## Quickstart
 
-From any project root (Node 18+ or Bun):
-
-### Shared Agent Skills (Universal Skills & Personas)
-
-Running with an **agent name** or `shared` automatically installs shared skills (`AgentSkills/skills/review`, `AgentSkills/skills/principles`, `AgentSkills/skills/standards`, `AgentSkills/skills/security`), agent personas (`AgentSkills/agents/architect.md`, `AgentSkills/agents/reviewer.md`), and the agent's entry point:
+From a project root (Node 18+ or Bun):
 
 ```bash
-# Install shared skills + specific IDE / Agent entry point
-npx @pratikpsl/agent-skills antigravity # → .agents/rules/GEMINI.md + AgentSkills/
-npx @pratikpsl/agent-skills cursor      # → .cursor/rules/instructions.md + AgentSkills/
-npx @pratikpsl/agent-skills claude      # → AGENTS.md + AgentSkills/
-npx @pratikpsl/agent-skills code        # → AGENTS.md + AgentSkills/
-npx @pratikpsl/agent-skills codex       # → AGENTS.md + AgentSkills/
-npx @pratikpsl/agent-skills copilot     # → .github/copilot-instructions.md + AgentSkills/
-npx @pratikpsl/agent-skills cline       # → .clinerules + AgentSkills/
+# Shared skills: operating, principles, standards, security, review, architect, reviewer
+npx @pratikpsl/agent-skills
 
-# Install shared skills across all IDE entry points
-npx @pratikpsl/agent-skills shared
-```
-
-### Compact Single-File Instructions
-
-To scaffold compact single-file agent instructions without the `AgentSkills/` folder:
-
-```bash
-npx @pratikpsl/agent-skills default
-npx @pratikpsl/agent-skills default --agent antigravity
-```
-
-### .NET / C# Template
-
-```bash
-# Install .NET agent skills + all IDE entry points
+# Shared skills plus a stack
 npx @pratikpsl/agent-skills dotnet
-
-# Install .NET agent skills + specific agent entry point only
-npx @pratikpsl/agent-skills dotnet --agent code
-npx @pratikpsl/agent-skills dotnet --agent cursor
-```
-
-### React / TypeScript Template
-
-```bash
-# Install React agent skills + all IDE entry points
-npx @pratikpsl/agent-skills react
-
-# Install React agent skills + specific agent entry point only
-npx @pratikpsl/agent-skills react --agent cursor
-npx @pratikpsl/agent-skills react --agent claude
-```
-
-### Python Template
-
-```bash
-# Install Python agent skills + all IDE entry points
 npx @pratikpsl/agent-skills python
-
-# Install Python agent skills + specific agent entry point only
-npx @pratikpsl/agent-skills python --agent cursor
-npx @pratikpsl/agent-skills python --agent claude
-```
-
-### Rust Template
-
-```bash
-# Install Rust agent skills + all IDE entry points
+npx @pratikpsl/agent-skills react
 npx @pratikpsl/agent-skills rust
-
-# Install Rust agent skills + specific agent entry point only
-npx @pratikpsl/agent-skills rust --agent cursor
-npx @pratikpsl/agent-skills rust --agent claude
 ```
 
-*(You can also use `bunx @pratikpsl/agent-skills` in Bun environments).*
+`shared` is the same as running the command with no template. `bunx @pratikpsl/agent-skills` works the same way.
+
+Install writes:
+
+- `.cursor/skills/<skill-name>/SKILL.md`, including any `references/`, `scripts/`, or `assets/` next to that skill
+- `.cursor/rules/agent-skills.mdc`, a short always-on rule that points agents at `.cursor/skills/`
 
 ---
 
-## CLI Options
+## CLI
 
 ```
 Usage: agent-skills [options] [template]
 
 Arguments:
-  template              Template: default, dotnet, python, react, rust, shared; agent names install shared guidance
+  template              Template: dotnet, python, react, rust, shared (default: shared)
 
 Options:
   -V, --version         output the version number
-  --agent <name>        Install one agent entry point: antigravity, claude, cline, code, codex, copilot, cursor
   --force               Overwrite installed files (default: false)
-  --hardlink            Hardlink matching entry points (default: true)
-  --no-hardlink         Do not hardlink matching entry points
   --path <dir>          Target project root (default: current working directory)
   -h, --help            display help for command
 ```
 
----
+```bash
+npx @pratikpsl/agent-skills react --path ../other-app
+npx @pratikpsl/agent-skills python --force
+```
 
-## Bundled Templates
-
-| Template | Path | Description |
-| --- | --- | --- |
-| `shared` | `templates/shared/` | Base operating contract, core skills (principles, standards, security, review), review & architecture agents (`architect.md`, `reviewer.md`) |
-| `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents (`architect.md`, `developer.md`), memory |
-| `python` | `templates/python/` | Python skills (PEP 8, uv, typing, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
-| `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent (`developer.md`) |
-| `rust` | `templates/rust/` | Rust skills (ownership, best-practices, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
-| `default` | `templates/default/` | Compact single-file agent instructions without AgentSkills folder |
+Existing files are left in place unless you pass `--force`.
 
 ---
 
-## Repository Layout
+## What gets installed
+
+| Template | Skills added on top of shared |
+| --- | --- |
+| `shared` | `operating`, `principles`, `standards`, `security`, `review`, `architect`, `reviewer` |
+| `dotnet` | Replaces `architect` and adds `developer`, `dotnet-best-practices`, `dotnet-api`, `csharp-xunit`, `performance` |
+| `python` | Replaces `architect` and adds `developer`, `python-best-practices`, `python-typing`, `testing`, `performance` |
+| `react` | Adds `developer`, `react-typescript`, `testing`, `performance` (keeps the shared `architect`) |
+| `rust` | Replaces `architect` and adds `developer`, `rust-best-practices`, `rust-ownership`, `testing`, `performance` |
+
+Cursor loads a skill when its description matches the task. There is no skills index to maintain.
+
+---
+
+## Upgrading from 1.x
+
+Version 2.0 installs Cursor workspace skills only.
+
+- Skills go to `.cursor/skills/`, not `AgentSkills/skills/`.
+- `architect`, `reviewer`, and `developer` are skills. The operating contract is the `operating` skill.
+- `--agent`, `--hardlink`, agent-name arguments (`cursor`, `claude`, `codex`, and the rest), and the `default` template are removed.
+- The CLI does not delete an older `AgentSkills/` tree. Remove that directory yourself after you no longer need its notes. Re-run with `--force` to refresh `.cursor/skills/`.
+
+---
+
+## Repository layout
 
 ```
 coding-skills-ai/
 ├── src/
 │   ├── bin/agent-skills.ts     # CLI binary entry
-│   ├── cli/index.ts            # Commander CLI program
+│   ├── cli/index.ts            # Commander program
 │   └── core/
-│       ├── ide-map.ts          # IDE entry point definitions and parser
-│       ├── install-template.ts # Installation & merging engine
+│       ├── install-template.ts # Copy skills into .cursor/skills
 │       └── resolve-template.ts # Bundled template resolver
 ├── templates/
-│   ├── default/                # Single-file instructions
-│   ├── dotnet/                 # .NET template
-│   ├── python/                 # Python template
-│   ├── react/                  # React template
-│   ├── rust/                   # Rust template
-│   └── shared/                 # Shared operating contract & memory
-├── tests/                      # Vitest test suite
-├── bun.lock                    # Reproducible lockfile
+│   ├── shared/skills/          # Shared Cursor skills
+│   ├── shared/rules/           # Thin always-on rule
+│   ├── dotnet/skills/
+│   ├── python/skills/
+│   ├── react/skills/
+│   └── rust/skills/
+├── tests/
 ├── package.json
-├── tsconfig.json
-├── vitest.config.ts
-├── SECURITY.md
-├── LICENSE                     # Apache-2.0
 └── README.md
 ```
 
+Each skill is `templates/<template>/skills/<skill-name>/SKILL.md`.
+
 ---
 
-## Local Development
+## Local development
 
 ```bash
 bun install
@@ -160,11 +119,10 @@ bun test
 
 ## Security
 
-Please see [`SECURITY.md`](./SECURITY.md) for our security policy and reporting procedures.
+See [`SECURITY.md`](./SECURITY.md).
 
 ---
 
 ## License
 
 Apache License 2.0 — see [`LICENSE`](./LICENSE).
-

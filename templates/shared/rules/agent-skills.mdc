@@ -1,0 +1,6 @@
+---
+description: Discover workspace skills before coding
+alwaysApply: true
+---
+
+Skills for this project live in `.cursor/skills/`. Apply the `operating` skill on every task, then load only the skills whose descriptions match the work.

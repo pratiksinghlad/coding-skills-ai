@@ -1,63 +1,38 @@
 import { Command } from "commander";
 import { createRequire } from "module";
-import { installDefaultTemplate, installTemplate } from "../core/install-template.js";
-import { AGENT_NAMES, parseAgentName } from "../core/ide-map.js";
+import { installTemplate } from "../core/install-template.js";
 import { resolveSharedTemplate, resolveTemplate, TEMPLATE_NAMES } from "../core/resolve-template.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../../package.json") as { version: string };
 
 interface CliOptions {
-  agent?: string;
   force: boolean;
-  hardlink?: boolean;
   path: string;
 }
 
 function runInstall(template: string | undefined, options: CliOptions): void {
-  const isAgent = template && AGENT_NAMES.includes(template.toLowerCase());
-  const implicitAgent = isAgent ? parseAgentName(template) : undefined;
+  const selectedTemplate = template ?? "shared";
+  const result = installTemplate({
+    force: options.force,
+    sharedDir: resolveSharedTemplate(),
+    targetDir: options.path,
+    templateDir: resolveTemplate(selectedTemplate),
+  });
 
-  if (implicitAgent && options.agent) {
-    throw new Error("Choose an agent with either the argument or --agent, not both.");
-  }
-
-  const selectedTemplate = implicitAgent ? "shared" : template ?? "shared";
-  const agent = implicitAgent ?? parseAgentName(options.agent);
-  const targetDir = options.path;
-  const hardlink = options.hardlink ?? true;
-
-  const result =
-    selectedTemplate === "default"
-      ? installDefaultTemplate(resolveTemplate(selectedTemplate), {
-          agent,
-          force: options.force,
-          hardlink,
-          targetDir,
-        })
-      : installTemplate({
-          agent,
-          force: options.force,
-          hardlink,
-          sharedDir: resolveSharedTemplate(),
-          targetDir,
-          templateDir: resolveTemplate(selectedTemplate),
-        });
-
-  console.log(`Installed ${selectedTemplate}: ${result.written.length} written, ${result.skipped.length} skipped.`);
+  console.log(
+    `Installed ${selectedTemplate} Cursor skills: ${result.written.length} written, ${result.skipped.length} skipped.`,
+  );
 }
 
 const program = new Command();
 
 program
   .name("agent-skills")
-  .description("Install shared coding-agent guidance and a framework template")
+  .description("Install Cursor workspace skills into .cursor/skills")
   .version(version)
-  .argument("[template]", `Template: ${TEMPLATE_NAMES.join(", ")}; agent names install shared guidance`)
-  .option("--agent <name>", `Install one agent entry point: ${AGENT_NAMES.join(", ")}`)
+  .argument("[template]", `Template: ${TEMPLATE_NAMES.join(", ")} (default: shared)`)
   .option("--force", "Overwrite installed files", false)
-  .option("--hardlink", "Hardlink matching entry points", true)
-  .option("--no-hardlink", "Do not hardlink matching entry points")
   .option("--path <dir>", "Target project root", process.cwd())
   .action((template: string | undefined, options: CliOptions) => runInstall(template, options));
 
