@@ -14,10 +14,9 @@ Universal review guidance for AI agents and human reviewers across all stacks. S
 - **Review**: Adhere strictly to `AgentSkills/skills/review/SKILL.md`.
 
 ## Verification & Automated Checks
-- [ ] **Clean Build**
-- [ ] **Zero Lint Errors**
-- [ ] **Tests Pass**
-- [ ] **Test Robustness**
+- [ ] **Lint, types, and framework build**
+- [ ] **Tests** added or run only when the user asks
+- [ ] **Test Robustness** when the user asked for tests
 
 ## Standards & Skill Compliance
 - [ ] **Principles**: `AgentSkills/skills/principles/SKILL.md`

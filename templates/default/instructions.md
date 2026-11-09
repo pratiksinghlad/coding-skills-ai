@@ -34,9 +34,10 @@ minimizing the diff, following the project's own architecture and conventions.
 - Maximum 2 levels of nesting; prefer early returns to flatten control flow.
 
 ## Definition of Done
-- Builds cleanly without any errors.
+- Lint, types, and the framework build are clean.
+- Tests are added or run only when the user asks, and they pass when run.
 - No debug code, dead code, unused imports, or temporary files left behind.
-- Changes are minimal, focused, covered by tests, and easy to review.
+- Changes are minimal, focused, and easy to review.
 
 ## Agent Memory
 - Read `AgentSkills/memory/index.md` at the start of every task (create if missing); load only relevant domain lessons.

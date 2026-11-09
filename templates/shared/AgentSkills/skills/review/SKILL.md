@@ -15,9 +15,8 @@ Universal review framework and verification standards for AI agents and human re
 5. **Performance**: Avoid N+1 queries, unbounded loops, blocking operations in async flows, and redundant re-computations.
 
 ## Verification & Automated Checks
-- [ ] **Clean Build**: Project builds cleanly with zero errors or warnings.
-- [ ] **Zero Lint Errors**: Code adheres to project formatting and static analysis rules.
-- [ ] **Tests Pass**: Run test suite; all existing and newly added tests must pass.
+- [ ] **Lint, types, and build**: Formatting, static checks, and the language framework build are clean.
+- [ ] **Tests**: Add or run tests only when the user asks. When run, they pass.
 - [ ] **Test Robustness**: Tests must cover failure paths, edge cases, and boundary conditions, not just happy paths.
 
 ## Review Output Format

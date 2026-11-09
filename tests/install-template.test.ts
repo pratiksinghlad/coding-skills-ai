@@ -105,7 +105,7 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/reviewer.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/agents/architect.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
-    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("dotnet-best-practices");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("dotnet-standards");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
@@ -463,15 +463,16 @@ describe("installTemplate", () => {
     // Shared skills are present
     expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
-    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("python-best-practices");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("python-standards");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/review/SKILL.md"))).toBe(true);
 
     // Python-specific skills are present
-    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-typing/SKILL.md"))).toBe(true);
-    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-best-practices/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-typing/SKILL.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-best-practices/SKILL.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/testing/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/performance/SKILL.md"))).toBe(true);
 
@@ -482,13 +483,15 @@ describe("installTemplate", () => {
     expect(readFileSync(path.join(targetDir, "AgentSkills/agents/developer.md"), "utf8")).toContain("Python Developer");
     expect(readFileSync(path.join(targetDir, "AgentSkills/agents/architect.md"), "utf8")).toContain("Python Architect");
 
-    // Python-specific skill content
-    const typingContent = readFileSync(path.join(targetDir, "AgentSkills/skills/python-typing/SKILL.md"), "utf8");
-    expect(typingContent).toContain("pydantic");
-    expect(typingContent).toContain("mypy");
-    const bestPracticesContent = readFileSync(path.join(targetDir, "AgentSkills/skills/python-best-practices/SKILL.md"), "utf8");
-    expect(bestPracticesContent).toContain("uv");
-    expect(bestPracticesContent).toContain("PEP 8");
+    // Python standards live in one skill the agent loads on every Python edit
+    const pythonContent = readFileSync(path.join(targetDir, "AgentSkills/skills/python-standards/SKILL.md"), "utf8");
+    expect(pythonContent).toContain("uv");
+    expect(pythonContent).toContain("PEP 8");
+    expect(pythonContent).toContain("pydantic");
+    expect(pythonContent).toContain("mypy");
+    expect(pythonContent).toContain("compatibility:");
+    expect(pythonContent).toContain("## Review Checklist");
+    expect(pythonContent).toContain("AI agents");
 
     // Entry points exist
     expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
@@ -508,15 +511,16 @@ describe("installTemplate", () => {
     // Shared skills are present
     expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
-    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("rust-best-practices");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("rust-standards");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/review/SKILL.md"))).toBe(true);
 
     // Rust-specific skills are present
-    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-ownership/SKILL.md"))).toBe(true);
-    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-best-practices/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-ownership/SKILL.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-best-practices/SKILL.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/rust-standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/testing/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/performance/SKILL.md"))).toBe(true);
 
@@ -527,14 +531,15 @@ describe("installTemplate", () => {
     expect(readFileSync(path.join(targetDir, "AgentSkills/agents/developer.md"), "utf8")).toContain("Rust Developer");
     expect(readFileSync(path.join(targetDir, "AgentSkills/agents/architect.md"), "utf8")).toContain("Rust Architect");
 
-    // Rust-specific skill content
-    const ownershipContent = readFileSync(path.join(targetDir, "AgentSkills/skills/rust-ownership/SKILL.md"), "utf8");
-    expect(ownershipContent).toContain("Arc<Mutex<T>>");
-    expect(ownershipContent).toContain("unwrap()");
-    const bestPracticesContent = readFileSync(path.join(targetDir, "AgentSkills/skills/rust-best-practices/SKILL.md"), "utf8");
-    expect(bestPracticesContent).toContain("clippy");
-    expect(bestPracticesContent).toContain("thiserror");
-    expect(bestPracticesContent).toContain("tracing");
+    // Rust standards cover ownership and implementation in one file
+    const rustContent = readFileSync(path.join(targetDir, "AgentSkills/skills/rust-standards/SKILL.md"), "utf8");
+    expect(rustContent).toContain("Arc<Mutex<T>>");
+    expect(rustContent).toContain("unwrap()");
+    expect(rustContent).toContain("clippy");
+    expect(rustContent).toContain("thiserror");
+    expect(rustContent).toContain("tracing");
+    expect(rustContent).toContain("## Review Checklist");
+    expect(rustContent).toContain("AI agents");
 
     // Entry points exist
     expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
