@@ -1,6 +1,6 @@
 # @pratikpsl/agent-skills
 
-> Scaffold and manage AI agent skills across any project — for Cursor, Claude, Codex, Copilot, Antigravity, and Cline.
+> Scaffold and manage AI agent skills across any project — for Cursor, Claude, Codex, Copilot, and Antigravity.
 
 `@pratikpsl/agent-skills` is a single npm package: a TypeScript CLI plus bundled templates under `templates/`. No runtime network fetch — templates ship inside the package, so setup works offline after install.
 
@@ -22,7 +22,6 @@ npx @pratikpsl/agent-skills claude      # → AGENTS.md + AgentSkills/
 npx @pratikpsl/agent-skills code        # → AGENTS.md + AgentSkills/
 npx @pratikpsl/agent-skills codex       # → AGENTS.md + AgentSkills/
 npx @pratikpsl/agent-skills copilot     # → .github/copilot-instructions.md + AgentSkills/
-npx @pratikpsl/agent-skills cline       # → .clinerules + AgentSkills/
 
 # Install shared skills across all IDE entry points
 npx @pratikpsl/agent-skills shared
@@ -95,7 +94,7 @@ Arguments:
 
 Options:
   -V, --version         output the version number
-  --agent <name>        Install one agent entry point: antigravity, claude, cline, code, codex, copilot, cursor
+  --agent <name>        Install one agent entry point: antigravity, claude, code, codex, copilot, cursor
   --force               Overwrite installed files (default: false)
   --hardlink            Hardlink matching entry points (default: true)
   --no-hardlink         Do not hardlink matching entry points

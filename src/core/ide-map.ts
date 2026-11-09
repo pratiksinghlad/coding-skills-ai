@@ -1,7 +1,6 @@
 export const IDE_ENTRY_POINTS: Record<string, string> = {
   antigravity: ".agents/rules/GEMINI.md",
   claude: "AGENTS.md",
-  cline: ".clinerules",
   code: "AGENTS.md",
   codex: "AGENTS.md",
   copilot: ".github/copilot-instructions.md",
