@@ -8,7 +8,6 @@ Consult this index to load only the skills relevant to the current task.
 | standards | AgentSkills/skills/standards/SKILL.md | Code quality, 50-line limits, shallow nesting, clean signatures |
 | security | AgentSkills/skills/security/SKILL.md | Input validation, secrets handling, safe queries, least privilege |
 | review | AgentSkills/skills/review/SKILL.md | Code review framework, five review dimensions, verification rules |
-| python-best-practices | AgentSkills/skills/python-best-practices/SKILL.md | PEP 8 conventions, uv project setup, ruff, async patterns, logging |
-| python-typing | AgentSkills/skills/python-typing/SKILL.md | Strict static typing, mypy/pyright, pydantic models, Protocol, TypeVar |
+| python-standards | AgentSkills/skills/python-standards/SKILL.md | Load on every Python change. PEP 8, typing, uv, ruff, async, logging |
 | testing | AgentSkills/skills/testing/SKILL.md | pytest, pytest-asyncio, hypothesis property testing, fixtures, mocks |
 | performance | AgentSkills/skills/performance/SKILL.md | cProfile/memray, generators, asyncio concurrency, connection pooling |

@@ -17,12 +17,13 @@ minimizing the diff, following the project's own architecture, standards, and co
 - **Think Before Coding**: Thoroughly understand requirements. If ambiguous, ask before guessing.
 - **Surgical Changes**: Make the smallest change that satisfies the request; touch only what is explicitly required.
 - **Simplicity First (KISS / YAGNI)**: Favor simple, clear, maintainable solutions over clever abstractions. Do not add unrequested features.
-- **Zero-Error Builds**: Every change must compile cleanly and pass existing and newly added tests.
+- **Build**: Run the language framework build and fix what it reports before finishing. Add or run tests only when the user asks.
 
 ## Definition of Done
-- Builds cleanly without any errors.
+- Lint, types, and the framework build are clean.
+- Tests are added or run only when the user asks, and they pass when run.
 - No debug code, dead code, unused imports, or temporary files left behind.
-- Changes are minimal, focused, covered by tests, and easy to review.
+- Changes are minimal, focused, and easy to review.
 
 ## Agent & Contributor Memory
 - Read `AgentSkills/memory/index.md` at the start of every task (create if missing); load only relevant domain lessons.
