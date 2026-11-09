@@ -8,7 +8,6 @@ describe("ide-map", () => {
     expect(AGENT_NAMES).toEqual([
       "antigravity",
       "claude",
-      "cline",
       "code",
       "codex",
       "copilot",
@@ -20,7 +19,6 @@ describe("ide-map", () => {
     expect(IDE_ENTRY_POINTS.claude).toBe("AGENTS.md");
     expect(IDE_ENTRY_POINTS.copilot).toBe(".github/copilot-instructions.md");
     expect(IDE_ENTRY_POINTS.antigravity).toBe(".agents/rules/GEMINI.md");
-    expect(IDE_ENTRY_POINTS.cline).toBe(".clinerules");
   });
 
   it("parses valid agent names case-insensitively", () => {
@@ -35,6 +33,7 @@ describe("ide-map", () => {
   it("throws for unknown agent names", () => {
     expect(() => parseAgentName("unknown-agent")).toThrowError(/Unknown agent "unknown-agent"/);
     expect(() => parseAgentName("windsurf")).toThrowError(/Unknown agent "windsurf"/);
+    expect(() => parseAgentName("cline")).toThrowError(/Unknown agent "cline"/);
   });
 });
 

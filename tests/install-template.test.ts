@@ -148,24 +148,13 @@ describe("installTemplate", () => {
     const copilotContent = readFileSync(copilotPath, "utf8");
     expect(copilotContent).toContain("../AGENTS.md");
 
-    // Cline rules
-    const clinePath = path.join(targetDir, ".clinerules");
-    expect(existsSync(clinePath)).toBe(true);
-    const clineContent = readFileSync(clinePath, "utf8");
-    expect(clineContent).toBe(agentsContent);
-
-    // Matching entry points (AGENTS.md and .clinerules) are hardlinked
-    expect(statSync(agentsPath).ino).toBe(statSync(clinePath).ino);
-
-    // Edits to one reflect in the other on disk
-    writeFileSync(clinePath, "shared dynamic content", "utf8");
-    expect(readFileSync(agentsPath, "utf8")).toBe("shared dynamic content");
-
     // Divergent entry points remain separate files with distinct inodes
     expect(statSync(geminiPath).ino).not.toBe(statSync(agentsPath).ino);
     expect(statSync(cursorPath).ino).not.toBe(statSync(agentsPath).ino);
+    expect(statSync(copilotPath).ino).not.toBe(statSync(agentsPath).ino);
 
-    // Windsurf is completely removed
+    // Removed agents are not installed
+    expect(existsSync(path.join(targetDir, ".clinerules"))).toBe(false);
     expect(existsSync(path.join(targetDir, ".windsurfrules"))).toBe(false);
   });
 
@@ -241,7 +230,7 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
   });
 
-  it("disables hardlinks and writes separate files when hardlink is false", () => {
+  it("writes independent entry points when hardlink is false", () => {
     const targetDir = makeTempDir();
     installTemplate({
       force: false,
@@ -252,18 +241,22 @@ describe("installTemplate", () => {
     });
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const clinePath = path.join(targetDir, ".clinerules");
+    const geminiPath = path.join(targetDir, ".agents/rules/GEMINI.md");
+    const copilotPath = path.join(targetDir, ".github/copilot-instructions.md");
     expect(existsSync(agentsPath)).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
-    expect(existsSync(clinePath)).toBe(true);
+    expect(existsSync(path.join(targetDir, ".clinerules"))).toBe(false);
+    expect(existsSync(geminiPath)).toBe(true);
+    expect(existsSync(copilotPath)).toBe(true);
 
-    expect(statSync(agentsPath).ino).not.toBe(statSync(clinePath).ino);
+    expect(statSync(agentsPath).ino).not.toBe(statSync(geminiPath).ino);
+    expect(statSync(agentsPath).ino).not.toBe(statSync(copilotPath).ino);
 
-    writeFileSync(clinePath, "independent cline file", "utf8");
-    expect(readFileSync(agentsPath, "utf8")).not.toBe("independent cline file");
+    writeFileSync(geminiPath, "independent gemini file", "utf8");
+    expect(readFileSync(agentsPath, "utf8")).not.toBe("independent gemini file");
   });
 
-  it("hardlinks root entry points in default template while keeping nested entry points separate", () => {
+  it("keeps nested entry points separate from AGENTS.md in default template", () => {
     const targetDir = makeTempDir();
     installDefaultTemplate(resolveTemplate("default"), {
       force: false,
@@ -272,22 +265,23 @@ describe("installTemplate", () => {
     });
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const clinePath = path.join(targetDir, ".clinerules");
     const geminiPath = path.join(targetDir, ".agents/rules/GEMINI.md");
+    const cursorPath = path.join(targetDir, ".cursor/rules/instructions.md");
 
     expect(existsSync(agentsPath)).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
-    expect(existsSync(clinePath)).toBe(true);
+    expect(existsSync(path.join(targetDir, ".clinerules"))).toBe(false);
     expect(existsSync(geminiPath)).toBe(true);
+    expect(existsSync(cursorPath)).toBe(true);
 
-    expect(statSync(agentsPath).ino).toBe(statSync(clinePath).ino);
     expect(statSync(geminiPath).ino).not.toBe(statSync(agentsPath).ino);
+    expect(statSync(cursorPath).ino).not.toBe(statSync(agentsPath).ino);
 
-    writeFileSync(clinePath, "default synchronized instructions", "utf8");
-    expect(readFileSync(agentsPath, "utf8")).toBe("default synchronized instructions");
+    writeFileSync(agentsPath, "default synchronized instructions", "utf8");
+    expect(readFileSync(geminiPath, "utf8")).not.toBe("default synchronized instructions");
   });
 
-  it("hardlinks AGENTS.md and matching entry points when custom template content is identical", () => {
+  it("installs custom shared entry-point content into AGENTS.md", () => {
     const targetDir = makeTempDir();
     const customShared = makeTempDir();
     const entryDir = path.join(customShared, "entry-points");
@@ -307,14 +301,10 @@ describe("installTemplate", () => {
     });
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const clinePath = path.join(targetDir, ".clinerules");
     expect(existsSync(agentsPath)).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
-    expect(existsSync(clinePath)).toBe(true);
-
-    expect(statSync(agentsPath).ino).toBe(statSync(clinePath).ino);
-    writeFileSync(agentsPath, "synchronized instructions", "utf8");
-    expect(readFileSync(clinePath, "utf8")).toBe("synchronized instructions");
+    expect(existsSync(path.join(targetDir, ".clinerules"))).toBe(false);
+    expect(readFileSync(agentsPath, "utf8")).toContain("review/SKILL.md");
   });
 
   it("falls back to file write when linkSync throws an error", () => {
@@ -334,12 +324,13 @@ describe("installTemplate", () => {
     linkSpy.mockRestore();
 
     const agentsPath = path.join(targetDir, "AGENTS.md");
-    const clinePath = path.join(targetDir, ".clinerules");
+    const geminiPath = path.join(targetDir, ".agents/rules/GEMINI.md");
     expect(existsSync(agentsPath)).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
-    expect(existsSync(clinePath)).toBe(true);
-    expect(readFileSync(clinePath, "utf8")).toContain("review/SKILL.md");
-    expect(statSync(clinePath).ino).not.toBe(statSync(agentsPath).ino);
+    expect(existsSync(path.join(targetDir, ".clinerules"))).toBe(false);
+    expect(existsSync(geminiPath)).toBe(true);
+    expect(readFileSync(agentsPath, "utf8")).toContain("review/SKILL.md");
+    expect(statSync(geminiPath).ino).not.toBe(statSync(agentsPath).ino);
   });
 
   it("installs shared template containing AgentSkills and review skill across entry points", () => {
