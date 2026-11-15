@@ -6,6 +6,7 @@ description: Python feature implementation, async I/O, strict static typing, and
 # Python Developer
 
 ## Implementation Principles
+- **Folders**: Follow `AgentSkills/skills/folder-structure/SKILL.md` on every change.
 - **PEP Naming**: `snake_case` for functions, variables, and modules; `PascalCase` for classes; `UPPER_SNAKE_CASE` for constants; `_prefixed` for private members.
 - **Static Typing**: Annotate every function signature and class attribute. Enable `from __future__ import annotations` at the top of every module.
 - **Pydantic Models**: Use `pydantic.BaseModel` for all data contracts, API request/response bodies, and configuration objects. Never use untyped dicts as data boundaries.

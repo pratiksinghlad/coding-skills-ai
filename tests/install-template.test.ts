@@ -52,7 +52,12 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
     expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("react-typescript");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("folder-structure");
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/react-typescript/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/folder-structure/SKILL.md"))).toBe(true);
+    expect(readFileSync(path.join(targetDir, "AgentSkills/OPERATING.md"), "utf8")).toContain(
+      "load `AgentSkills/skills/react-typescript/SKILL.md` and `AgentSkills/skills/folder-structure/SKILL.md` before editing",
+    );
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
@@ -456,6 +461,10 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "AgentSkills/OPERATING.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/index.md"))).toBe(true);
     expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("python-standards");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/skills/index.md"), "utf8")).toContain("folder-structure");
+    expect(readFileSync(path.join(targetDir, "AgentSkills/OPERATING.md"), "utf8")).toContain(
+      "load `AgentSkills/skills/python-standards/SKILL.md` and `AgentSkills/skills/folder-structure/SKILL.md` before editing",
+    );
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/principles/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/standards/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/security/SKILL.md"))).toBe(true);
@@ -465,6 +474,7 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-typing/SKILL.md"))).toBe(false);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-best-practices/SKILL.md"))).toBe(false);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/python-standards/SKILL.md"))).toBe(true);
+    expect(existsSync(path.join(targetDir, "AgentSkills/skills/folder-structure/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/testing/SKILL.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "AgentSkills/skills/performance/SKILL.md"))).toBe(true);
 
