@@ -12,10 +12,14 @@ compatibility: Requires Python 3.11+ and uv. Lint and types use ruff and mypy, o
 
 AI agents load this file on every Python edit, with shared principles and standards. Apply these rules while writing.
 
+## Before editing
+Read `[tool.ruff]` in `pyproject.toml` before editing. Obey it for the whole change. Write PEP 8 names, 4-space indent, imports grouped as stdlib, third-party, then local, and no wildcard imports. Do not drop a ruff code to make a change pass. If `[tool.ruff]` is absent, follow these rules and do not create the file unless the user ran `agent-skills lint`.
+
 ## Naming (PEP 8)
 - Modules, packages, functions, variables: `snake_case`
 - Classes: `PascalCase`. Constants: `UPPER_SNAKE_CASE`. Non-public: `_prefix`
 - Use dunder names only for language protocols
+- Indent with 4 spaces. Group imports as stdlib, third-party, then local. Do not use a wildcard import.
 
 ## Project
 - Manage the project with `uv` (`uv add`, `uv sync`, `uv run`). Do not `pip install` into the global environment.
@@ -28,15 +32,25 @@ AI agents load this file on every Python edit, with shared principles and standa
 - Prefer `Protocol` for injectable behavior. Use `type` aliases on 3.12+, otherwise `TypeAlias`.
 - `TypedDict` for an external dict shape. `pydantic.BaseModel` for data that crosses a layer. `ConfigDict(frozen=True)` for value objects.
 - Validate at the outer boundary (API, CLI, queue), then pass models inward.
-- Enable strict checking. Minimum ruff selection is `E`, `F`, `I`, `UP`, `ANN`.
+- Enable strict checking. Minimum ruff selection is `E`, `F`, `I`, `UP`, `N`, `ANN`. `N` is pep8-naming.
 
 ```toml
 [tool.mypy]
 strict = true
 
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "ANN"]
+select = ["E", "F", "I", "UP", "N", "ANN"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 ```
+
+`agent-skills lint python` adds these tables when they are missing. It does not replace an existing `line-length` or `target-version`. It adds missing `select` codes and leaves codes the project already selected.
 
 If the repository already uses pyright, keep pyright on strict mode instead of adding mypy.
 
@@ -58,7 +72,7 @@ If the repository already uses pyright, keep pyright on strict mode instead of a
 - [ ] `ruff` and the type checker are clean.
 
 ## Verify
-After Python edits, run lint, types, and the framework build. Fix what they report:
+After Python edits, if `[tool.ruff]` exists, run lint and format and fix what they report. Do not drop a ruff code to make a change pass.
 
 ```bash
 uv run ruff check

@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { createRequire } from "module";
 import { installDefaultTemplate, installTemplate } from "../core/install-template.js";
 import { AGENT_NAMES, parseAgentName } from "../core/ide-map.js";
+import { applyProjectLint, formatLintResult, parseLintLanguage } from "../core/lint-config.js";
 import { resolveSharedTemplate, resolveTemplate, TEMPLATE_NAMES } from "../core/resolve-template.js";
 
 const require = createRequire(import.meta.url);
@@ -47,6 +48,26 @@ function runInstall(template: string | undefined, options: CliOptions): void {
   console.log(`Installed ${selectedTemplate}: ${result.written.length} written, ${result.skipped.length} skipped.`);
 }
 
+interface LintCliOptions {
+  force: boolean;
+  path: string;
+}
+
+function runLint(language: string, options: LintCliOptions): void {
+  const result = applyProjectLint({
+    force: options.force,
+    language: parseLintLanguage(language),
+    targetDir: options.path,
+  });
+  const line = formatLintResult(result);
+  if (result.status === "skipped") {
+    console.error(line);
+    process.exitCode = 1;
+    return;
+  }
+  console.log(line);
+}
+
 const program = new Command();
 
 program
@@ -60,6 +81,14 @@ program
   .option("--no-hardlink", "Do not hardlink matching entry points")
   .option("--path <dir>", "Target project root", process.cwd())
   .action((template: string | undefined, options: CliOptions) => runInstall(template, options));
+
+program
+  .command("lint")
+  .description("Add native lint settings for react or python")
+  .argument("<language>", "Language: react, python")
+  .option("--force", "Raise strictness flags to the strict profile", false)
+  .option("--path <dir>", "Target project root", process.cwd())
+  .action((language: string, options: LintCliOptions) => runLint(language, options));
 
 program.parseAsync(process.argv).catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);

@@ -11,6 +11,36 @@ compatibility: Requires TypeScript with strict enabled and React 18 or newer. Ty
 
 AI agents load this file on every React, TypeScript, or JavaScript edit, with shared principles and standards. Apply these rules while writing.
 
+## Before editing
+Read `tsconfig.json` `compilerOptions` before editing. Obey those flags for the whole change. Write code that satisfies them: no `any`, no unused locals or parameters, `import type` for type-only imports, and index reads are `T | undefined`. Do not assign `undefined` to an optional property. Use bracket access for an index signature. Do not drop a compiler flag to make a change pass. If `tsconfig.json` is absent, follow these rules and do not create the file unless the user ran `agent-skills lint`.
+
+## Strict profile
+`agent-skills lint react` writes these flags when a key is missing. It does not replace `module`, `moduleResolution`, `noEmit`, `target`, `outDir`, `paths`, `include`, `exclude`, or `extends` when the project already set them.
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  }
+}
+```
+
+A new `tsconfig.json` also sets `"module": "esnext"`, `"moduleResolution": "bundler"`, `"noEmit": true`, `"target": "ES2022"`, and `"include": ["src"]`.
+
 ## TypeScript
 - Keep `strict` enabled. Do not use `any`. Use `unknown` and narrow it.
 - Export the props type and the return type of every public component and hook.
@@ -39,6 +69,6 @@ AI agents load this file on every React, TypeScript, or JavaScript edit, with sh
 - [ ] Inputs have labels, and errors are referenced with `aria-describedby`.
 
 ## Verify
-After TypeScript, JavaScript, or React edits, run the project's typecheck, ESLint, and framework build. Fix what they report.
+After TypeScript, JavaScript, or React edits, if `tsconfig.json` exists, run `tsc --noEmit` and fix what it reports. If an ESLint config already exists, run the project's ESLint too. Do not add ESLint. Then run the framework build and fix what it reports.
 
 Add or run tests only when the user asks. Then load the `testing` skill and run the project's test script.

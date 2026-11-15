@@ -102,6 +102,31 @@ Options:
   -h, --help            display help for command
 ```
 
+### Lint
+
+`react` and `python` installs do not change project config. Add native lint settings with:
+
+```bash
+npx @pratikpsl/agent-skills lint react
+npx @pratikpsl/agent-skills lint python
+npx @pratikpsl/agent-skills lint react --force
+npx @pratikpsl/agent-skills lint python --path <dir>
+```
+
+Without `--force`, missing keys are filled and existing values stay. `--force` raises TypeScript strictness flags and Python quote settings. It does not change `module`, `noEmit`, `line-length`, or `target-version` when those are already set. There is no lint script.
+
+```
+Usage: agent-skills lint [options] <language>
+
+Arguments:
+  language              Language: react, python
+
+Options:
+  --force               Raise strictness flags to the strict profile (default: false)
+  --path <dir>          Target project root (default: current working directory)
+  -h, --help            display help for command
+```
+
 ---
 
 ## Bundled Templates

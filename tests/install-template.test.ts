@@ -77,6 +77,7 @@ describe("installTemplate", () => {
     expect(existsSync(path.join(targetDir, "shared"))).toBe(false);
     expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "tsconfig.json"))).toBe(false);
   });
 
   it("preserves an installed file unless force is requested", () => {
@@ -487,6 +488,7 @@ describe("installTemplate", () => {
     // Entry points exist
     expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "pyproject.toml"))).toBe(false);
   });
 
   it("installs rust template with shared skills, typed agents, and rust-specific skills", () => {
@@ -535,5 +537,7 @@ describe("installTemplate", () => {
     // Entry points exist
     expect(existsSync(path.join(targetDir, "AGENTS.md"))).toBe(true);
     expect(existsSync(path.join(targetDir, "CLAUDE.md"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "tsconfig.json"))).toBe(false);
+    expect(existsSync(path.join(targetDir, "pyproject.toml"))).toBe(false);
   });
 });
