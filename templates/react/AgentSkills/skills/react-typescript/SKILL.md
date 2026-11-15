@@ -9,6 +9,8 @@ compatibility: Requires TypeScript with strict enabled and React 18 or newer. Ty
 
 # React and TypeScript Standards
 
+Load `AgentSkills/skills/folder-structure/SKILL.md` with this skill.
+
 AI agents load this file on every React, TypeScript, or JavaScript edit, with shared principles and standards. Apply these rules while writing.
 
 ## Before editing

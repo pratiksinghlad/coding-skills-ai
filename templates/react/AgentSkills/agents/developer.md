@@ -6,6 +6,7 @@ description: React feature implementation, custom hooks, and state architecture.
 # React Developer
 
 ## Component & State Principles
+- **Folders**: Follow `AgentSkills/skills/folder-structure/SKILL.md` on every change.
 - Keep components focused on a single UI responsibility; decompose complex trees.
 - Type props and state strictly using TypeScript discriminated unions for variant states.
 - Colocate state with the closest consuming component; compute derived values during render.

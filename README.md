@@ -135,8 +135,8 @@ Options:
 | --- | --- | --- |
 | `shared` | `templates/shared/` | Base operating contract, core skills (principles, standards, security, review), review & architecture agents (`architect.md`, `reviewer.md`) |
 | `dotnet` | `templates/dotnet/` | .NET/C# skills, architecture & developer agents (`architect.md`, `developer.md`), memory |
-| `python` | `templates/python/` | Python skills (PEP 8, uv, typing, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
-| `react` | `templates/react/` | React & TypeScript skills, frontend testing, developer agent (`developer.md`) |
+| `python` | `templates/python/` | Python skills (PEP 8, uv, typing, folder-structure, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
+| `react` | `templates/react/` | React & TypeScript skills, folder-structure, frontend testing, developer agent (`developer.md`) |
 | `rust` | `templates/rust/` | Rust skills (standards, ownership, testing, performance), architecture & developer agents (`architect.md`, `developer.md`) |
 | `default` | `templates/default/` | Compact single-file agent instructions without AgentSkills folder |
 

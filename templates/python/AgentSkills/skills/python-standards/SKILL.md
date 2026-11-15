@@ -10,6 +10,8 @@ compatibility: Requires Python 3.11+ and uv. Lint and types use ruff and mypy, o
 
 # Python Standards
 
+Load `AgentSkills/skills/folder-structure/SKILL.md` with this skill.
+
 AI agents load this file on every Python edit, with shared principles and standards. Apply these rules while writing.
 
 ## Before editing

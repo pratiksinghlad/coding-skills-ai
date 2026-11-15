@@ -8,6 +8,7 @@ Consult this index to load only the skills relevant to the current task.
 | standards | AgentSkills/skills/standards/SKILL.md | Code quality, 50-line limits, shallow nesting, clean signatures |
 | security | AgentSkills/skills/security/SKILL.md | Input validation, secrets handling, safe queries, least privilege |
 | review | AgentSkills/skills/review/SKILL.md | Code review framework, five review dimensions, verification rules |
+| folder-structure | AgentSkills/skills/folder-structure/SKILL.md | Load on every React, TypeScript, or JavaScript change. User folders, then the existing tree, then feature folders |
 | react-typescript | AgentSkills/skills/react-typescript/SKILL.md | Load on every React, TypeScript, or JavaScript change. Strict types, props, hooks |
 | testing | AgentSkills/skills/testing/SKILL.md | Vitest & React Testing Library, user-event, test coverage |
 | performance | AgentSkills/skills/performance/SKILL.md | Render optimization, lazy loading, state colocation, memoization |
